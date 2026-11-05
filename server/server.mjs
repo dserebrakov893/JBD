@@ -105,9 +105,15 @@ function limited(ip) {
 /* ---------- the website ---------- */
 const TYPES = { ".html": "text/html; charset=utf-8", ".txt": "text/plain; charset=utf-8", ".css": "text/css", ".js": "application/javascript",
   ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".ico": "image/x-icon", ".xml": "application/xml", ".webmanifest": "application/manifest+json" };
+const VIEWS = new Set(["/products", "/solutions", "/about", "/signed"]);
 const cache = new Map();   // path -> { body, gz, type }: the site is a few files, keep them in memory, gzipped once
 async function serveStatic(req, res) {
-  let path = decodeURIComponent(new URL(req.url, "http://x").pathname);
+  const url = new URL(req.url, "http://x");
+  let path = decodeURIComponent(url.pathname);
+  // clean URLs: /privacy.html -> /privacy, /about/ -> /about
+  const clean = path.replace(/\/index\.html$/, "/").replace(/\.html$/, "").replace(/(.)\/+$/, "$1");
+  if (clean !== path) { res.writeHead(301, { Location: clean + url.search }); return res.end(); }
+  if (VIEWS.has(path)) path = "/index.html";                 // site pages live inside index.html
   if (path.endsWith("/")) path += "index.html";
   if (!extname(path)) path += ".html";                       // /privacy -> privacy.html
   const rel = normalize(path).replace(/^([/\\])+/, "");

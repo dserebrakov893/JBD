@@ -16,7 +16,7 @@ window.JBD_LEAD = "/lead";
   /* always open at the front of the card, not where the browser last left the page */
   try{ if("scrollRestoration" in history) history.scrollRestoration = "manual"; }catch(e){}
   if(!rm) document.documentElement.classList.add("sig-anim");
-  if(rm || /^#(products|solutions|about)$/.test(location.hash)) return;
+  if(rm || /^#(products|solutions|about|signed)$/.test(location.hash) || /^\/(products|solutions|about|signed)\/?$/.test(location.pathname)) return;
   document.documentElement.classList.add("intro");
   /* if 3D can't start (old device, blocked CDN), show the site as usual */
   setTimeout(function(){
@@ -1127,9 +1127,9 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     </div>
     <div class="f-mid">
       <nav class="menu" aria-label="Sections">
-        <a href="#products" data-t="nav.products">Products</a>
-        <a href="#solutions" data-t="nav.solutions">Solutions</a>
-        <a href="#about" data-t="nav.about">About</a>
+        <a href="/products" data-t="nav.products">Products</a>
+        <a href="/solutions" data-t="nav.solutions">Solutions</a>
+        <a href="/about" data-t="nav.about">About</a>
       </nav>
       <p class="contact" aria-hidden="true"></p>
     </div>
@@ -1151,7 +1151,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
 
 <!-- ================= INNER PAGES ================= -->
 <article id="products" class="page stock pr" hidden>
-  <div class="top mono"><a href="#" data-t-html="backlink"><span aria-hidden="true">←</span> Back to the card</a></div>
+  <div class="top mono"><a href="/" data-t-html="backlink"><span aria-hidden="true">←</span> Back to the card</a></div>
   <header class="dhead">
     <div><h1 class="h h-xl pr-h"><span data-l="ru">Инвестируем.<br>Развиваем.<br>Продвигаем.</span><span data-l="en">We invest.<br>We build.<br>We grow.</span></h1></div>
     <p class="lead"><span data-l="ru">Собственные продукты JBD выдавлены в нашей бумаге, как печать. <span class="pr-hover">Наведите курсор</span><span class="pr-touch">Листайте</span>, и оттиск проявится краской.</span><span data-l="en">JBD’s own products are pressed into our paper like a seal. <span class="pr-hover">Hover over them</span><span class="pr-touch">Scroll</span> and the impression fills with ink.</span></p>
@@ -1178,16 +1178,16 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
       </div></div></div>
     </div>
   </div>
-  <div class="cta"><p class="h h-m"><span data-l="ru">Студия JBD делает такое и для других</span><span data-l="en">The JBD studio builds this for others too</span></p><a class="btn mono" href="#solutions" data-t-html="cta.pb">See solutions</a></div>
+  <div class="cta"><p class="h h-m"><span data-l="ru">Студия JBD делает такое и для других</span><span data-l="en">The JBD studio builds this for others too</span></p><a class="btn mono" href="/solutions" data-t-html="cta.pb">See solutions</a></div>
 </article>
 
 <article id="solutions" class="page stock" hidden>
-  <div class="top mono"><a href="#" data-t-html="backlink"><span aria-hidden="true">←</span> Back to the card</a></div>
+  <div class="top mono"><a href="/" data-t-html="backlink"><span aria-hidden="true">←</span> Back to the card</a></div>
   <div id="sol-root"></div>
 </article>
 
 <article id="signed" class="page stock reg" hidden>
-  <div class="top mono"><a href="#" data-t-html="backlink"><span aria-hidden="true">←</span> Back to the card</a></div>
+  <div class="top mono"><a href="/" data-t-html="backlink"><span aria-hidden="true">←</span> Back to the card</a></div>
   <header class="dhead">
     <div><h1 class="h h-xl"><span data-l="ru">Подписано</span><span data-l="en">Signed</span></h1></div>
     <p class="lead"><span data-l="ru">Реестр работ, которые мы сделали для клиентов. На каждой стоит наша подпись: мы за них отвечаем. Работы попадают в реестр только по согласованию с клиентом.</span><span data-l="en">A register of work we have done for clients. Each one carries our signature: we answer for it. Work is added to the register only with the client’s consent.</span></p>
@@ -1200,11 +1200,11 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
       <div class="reg-nm"><b><span data-l="ru">NIKA Stretch, пилатес-клуб</span><span data-l="en">NIKA Stretch, pilates club</span></b><small><span data-l="ru">Сайт с записью и оплатой · спорт</span><span data-l="en">Website with booking and payment · sport</span></small></div>
       <p class="reg-ds"><span data-l="ru">Страница записи на занятия пилатесом: программа занятия, студия и как добраться, билеты для себя и в подарок, оплата через ЮKassa, билеты приходят в Telegram.</span><span data-l="en">A booking page for pilates classes: the class plan, the studio and how to get there, tickets for yourself or as a gift, payment via YooKassa, tickets delivered in Telegram.</span><a href="https://www.mynika.online/stretch" target="_blank" rel="noopener">mynika.online/stretch <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 13.5l7-7M8 6.5h5.5V12"/></svg></a></p>
       <img class="reg-sig" alt="just business, darling" data-sig></li></ol>
-  <div class="reg-cta"><p><span data-l="ru">Хотите строку в этом реестре?</span><span data-l="en">Want a line in this register?</span></p><a class="btn mono" href="#solutions"><span data-l="ru">Собрать проект</span><span data-l="en">Build a project</span></a></div>
+  <div class="reg-cta"><p><span data-l="ru">Хотите строку в этом реестре?</span><span data-l="en">Want a line in this register?</span></p><a class="btn mono" href="/solutions"><span data-l="ru">Собрать проект</span><span data-l="en">Build a project</span></a></div>
 </article>
 
 <article id="about" class="page stock ab" hidden>
-  <div class="top mono"><a href="#" data-t-html="backlink"><span aria-hidden="true">←</span> Back to the card</a></div>
+  <div class="top mono"><a href="/" data-t-html="backlink"><span aria-hidden="true">←</span> Back to the card</a></div>
   <header class="ab-hero">
     <h1 class="phrase" aria-label="just business, darling"><span class="w"><span class="blind">just</span><span class="ink" aria-hidden="true">just</span></span> <span class="w"><span class="blind">business,</span><span class="ink" aria-hidden="true">business,</span></span> <span class="w"><span class="blind">darling</span><span class="ink" aria-hidden="true">darling</span></span></h1>
     <img class="ab-sig hero-sig" alt="just business, darling" data-sig>
@@ -1226,7 +1226,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
       <div class="def"><span class="tr">[ˈbɪznəs]</span><ol data-l="ru"><li><i>сущ.</i> дело, бизнес</li><li><i>сущ.</i> компания, предприятие</li><li><i>сущ.</i> занятие, обязанность</li></ol><ol data-l="en"><li><i>n.</i> work, trade</li><li><i>n.</i> a company</li><li><i>n.</i> something that is your concern</li></ol></div></div>
     
     <div class="bc">
-      <a href="#products" class="bcard bc-prod">
+      <a href="/products" class="bcard bc-prod">
         <div class="bc-art" aria-hidden="true">
           <div class="bc-row"><span class="lg lg-nika"><i class="m"></i><i class="c"></i></span><span class="wm sans"><span class="wb">NIKA</span><span class="wi" aria-hidden="true">NIKA</span></span></div>
           <div class="bc-row"><span class="lg lg-vet"><i class="m"></i><i class="c"></i></span><span class="wm "><span class="wb"><span data-l="ru">ВетФинанс</span><span data-l="en">VetFinance</span></span><span class="wi" aria-hidden="true"><span data-l="ru">ВетФинанс</span><span data-l="en">VetFinance</span></span></span></div>
@@ -1235,7 +1235,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
         <div class="bc-txt"><h3><span data-l="ru">Свои продукты</span><span data-l="en">Our products</span></h3>
           <p><span data-l="ru">Инвестируем, развиваем и продвигаем: NIKA, спортивно-культурный бренд, и ВетФинанс, финансы ветклиник в Telegram.</span><span data-l="en">We invest in, build and grow them: NIKA, a sport and culture brand, and VetFinance, finance for vet clinics in Telegram.</span></p></div>
       </a>
-      <a href="#solutions" class="bcard bc-studio">
+      <a href="/solutions" class="bcard bc-studio">
         <div class="bc-art"><ol class="dirs"><li><b><span data-l="ru">Сайты и веб-сервисы</span><span data-l="en">Websites and web services</span></b><span><span data-l="ru">Лендинги, корпоративные сайты, интернет-магазины, личные сайты, MVP, редизайн</span><span data-l="en">Landing pages, company sites, online stores, personal sites, MVPs, redesigns</span></span></li><li><b><span data-l="ru">Дизайн</span><span data-l="en">Design</span></b><span><span data-l="ru">Логотип и фирменный стиль, UI/UX, дизайн-системы, презентации, графика для сторов</span><span data-l="en">Logo and brand identity, UI/UX, design systems, decks, app store graphics</span></span></li><li><b><span data-l="ru">Telegram и мессенджеры</span><span data-l="en">Telegram and messengers</span></b><span><span data-l="ru">Боты для заявок и записи, боты с оплатой и подпиской, Mini Apps, внутренние боты</span><span data-l="en">Bots for requests and booking, bots with payments and subscriptions, Mini Apps, internal bots</span></span></li><li><b><span data-l="ru">Интеграции</span><span data-l="en">Integrations</span></b><span><span data-l="ru">CRM, онлайн-оплата, 1С, отраслевые системы, автоматизация на n8n, дашборды</span><span data-l="en">CRM, online payments, 1C, industry systems, n8n automation, dashboards</span></span></li><li><b><span data-l="ru">ИИ</span><span data-l="en">AI</span></b><span><span data-l="ru">Консультанты, ассистенты к вашим данным, агенты с действиями, анализ звонков, обучение команды</span><span data-l="en">Assistants, AI on your data, agents that act, call analysis, team training</span></span></li><li><b><span data-l="ru">Сопровождение каждый месяц</span><span data-l="en">Monthly support</span></b><span><span data-l="ru">Хостинг и домен, мониторинг, бэкапы, правки, ИИ-сопровождение, пакеты часов</span><span data-l="en">Hosting and domain, monitoring, backups, edits, AI support, hour packages</span></span></li><li><b><span data-l="ru">Отраслевые сборки</span><span data-l="en">Industry packages</span></b><span><span data-l="ru">Медицина, ветеринария, рестораны и кафе, эксперты, финансы</span><span data-l="en">Medicine, veterinary, restaurants and cafés, experts, finance</span></span></li></ol></div>
         <div class="bc-blur"></div>
         <div class="bc-txt"><h3><span data-l="ru">Студия</span><span data-l="en">The studio</span></h3>
@@ -1266,7 +1266,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     <div class="hw-l"><span class="hw-h"><span data-l="ru">Как мы работаем</span><span data-l="en">How we work</span></span><div class="hw-card" aria-hidden="true"><div class="sc sc1 on"><span class="num">01</span><div class="mock"><span class="mk"><span data-l="ru">Где удобнее связаться</span><span data-l="en">Preferred way to reach you</span></span><div class="mchips"><span data-l="ru">Звонок</span><span data-l="en">Call</span><span class="on">Telegram</span><span class="">WhatsApp</span><span class="">MAX</span><span data-l="ru">Почта</span><span data-l="en">Email</span></div><span class="mk"><span data-l="ru">Ник в Telegram</span><span data-l="en">Telegram username</span></span><span class="mline">@your_name</span><span class="mbtn"><span data-l="ru">Отправить заявку</span><span data-l="en">Send request</span></span></div></div><div class="sc sc2"><span class="num">02</span><div class="big60">60<small><span data-l="ru">минут</span><span data-l="en">minutes</span></small></div><div class="kv"><span><span data-l="ru">Состав работ</span><span data-l="en">Scope</span></span><span><span data-l="ru">Смета</span><span data-l="en">Estimate</span></span><span><span data-l="ru">Сроки</span><span data-l="en">Timeline</span></span></div><p class="note"><span data-l="ru">5 000 ₽ засчитываются в проект</span><span data-l="en">5,000 ₽ count towards the project</span></p></div><div class="sc sc3"><span class="num">03</span><ul class="bars"><li><span><span data-l="ru">Прототип</span><span data-l="en">Prototype</span></span><i style="--w:100"></i><em><span data-l="ru">2 круга правок</span><span data-l="en">2 rounds of revisions</span></em></li><li><span><span data-l="ru">Дизайн</span><span data-l="en">Design</span></span><i style="--w:100"></i><em><span data-l="ru">2 круга правок</span><span data-l="en">2 rounds of revisions</span></em></li><li><span><span data-l="ru">Сборка</span><span data-l="en">Build</span></span><i style="--w:64"></i><em><span data-l="ru">2 круга правок</span><span data-l="en">2 rounds of revisions</span></em></li></ul></div><div class="sc sc4"><span class="num">04</span><img class="sc-sig" alt="" data-sig><div class="kv"><span><span data-l="ru">Все доступы ваши</span><span data-l="en">All access is yours</span></span><span><span data-l="ru">30 дней гарантии</span><span data-l="en">30 days of warranty</span></span></div></div></div></div>
     <div class="hw-r"><div class="hw-line" aria-hidden="true"></div>
       <div class="hw-i on" data-i="0"><h3><span data-l="ru">Заявка</span><span data-l="en">Request</span></h3><p><span data-l="ru">Через форму на сайте или любой мессенджер. Отвечаем в течение рабочего дня.</span><span data-l="en">Through the form on the site or any messenger. We reply within one business day.</span></p></div><div class="hw-i" data-i="1"><h3><span data-l="ru">Разбор задачи</span><span data-l="en">Task review</span></h3><p><span data-l="ru">Встреча на час: состав работ, смета и сроки. 5&nbsp;000&nbsp;₽, которые засчитываются в проект.</span><span data-l="en">A one-hour meeting: scope, estimate and timeline. 5,000&nbsp;₽ that count towards the project.</span></p></div><div class="hw-i" data-i="2"><h3><span data-l="ru">Работа по этапам</span><span data-l="en">Work in stages</span></h3><p><span data-l="ru">Прототип, дизайн, сборка. На каждом этапе два круга правок, и вы видите результат, а не отчеты.</span><span data-l="en">Prototype, design, build. Two rounds of revisions at each stage, and you see results, not reports.</span></p></div><div class="hw-i" data-i="3"><h3><span data-l="ru">Сдача и подпись</span><span data-l="en">Delivery and signature</span></h3><p><span data-l="ru">Передаем все доступы, даем 30 дней гарантии и ставим подпись: теперь мы за это отвечаем.</span><span data-l="en">We hand over all access, give 30 days of warranty and sign the work: now we answer for it.</span></p></div>
-      <a class="btn mono ab-cta" href="#solutions"><span data-l="ru">Собрать проект</span><span data-l="en">Build a project</span></a>
+      <a class="btn mono ab-cta" href="/solutions"><span data-l="ru">Собрать проект</span><span data-l="en">Build a project</span></a>
     </div>
   </section>
 
@@ -1278,8 +1278,8 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
       <label class="l2"><span id="ab-cl">Telegram</span><input name="contact" required></label>
       <label class="l2 wide"><span><span data-l="ru">Комментарий, если нужно</span><span data-l="en">Comment, if any</span></span><textarea name="comment" rows="1"></textarea></label>
       <input class="l-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <label class="cb2"><input type="checkbox" name="c1"><span data-l="ru"><span>Даю <a href="consent.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a></span></span><span data-l="en"><span>I give my <a href="consent.html" target="_blank" rel="noopener">consent to the processing of personal data</a></span></span></label>
-      <label class="cb2"><input type="checkbox" name="c2"><span data-l="ru"><span>Принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a> и <a href="offer.html" target="_blank" rel="noopener">условия оферты</a></span></span><span data-l="en"><span>I accept the <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a> and the <a href="offer.html" target="_blank" rel="noopener">offer terms</a></span></span></label>
+      <label class="cb2"><input type="checkbox" name="c1"><span data-l="ru"><span>Даю <a href="/consent" target="_blank" rel="noopener">согласие на обработку персональных данных</a></span></span><span data-l="en"><span>I give my <a href="/consent" target="_blank" rel="noopener">consent to the processing of personal data</a></span></span></label>
+      <label class="cb2"><input type="checkbox" name="c2"><span data-l="ru"><span>Принимаю <a href="/privacy" target="_blank" rel="noopener">политику конфиденциальности</a> и <a href="/offer" target="_blank" rel="noopener">условия оферты</a></span></span><span data-l="en"><span>I accept the <a href="/privacy" target="_blank" rel="noopener">privacy policy</a> and the <a href="/offer" target="_blank" rel="noopener">offer terms</a></span></span></label>
       <div class="send"><button type="submit" class="btn mono" disabled><span data-l="ru">Отправить заявку</span><span data-l="en">Send request</span></button><p class="st" role="status" aria-live="polite"></p></div>
     </form>
   </section>
@@ -1294,18 +1294,18 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     <div class="f-col">
       <p class="f-h" data-t="f.nav">Navigation</p>
       <nav aria-label="Footer">
-        <a href="#products" data-t="nav.products">Products</a>
-        <a href="#solutions" data-t="nav.solutions">Solutions</a>
-        <a href="#about" data-t="nav.about">About</a>
-        <a href="#signed"><span data-l="ru">Подписано</span><span data-l="en">Signed</span></a>
+        <a href="/products" data-t="nav.products">Products</a>
+        <a href="/solutions" data-t="nav.solutions">Solutions</a>
+        <a href="/about" data-t="nav.about">About</a>
+        <a href="/signed"><span data-l="ru">Подписано</span><span data-l="en">Signed</span></a>
       </nav>
     </div>
     <div class="f-col f-docs">
       <p class="f-h" data-t="docs.h">Documents</p>
       <ul class="docs">
-        <li><a href="privacy.html" target="_blank" rel="noopener" data-t="doc.privacy">Privacy policy</a></li>
-        <li><a href="consent.html" target="_blank" rel="noopener" data-t="doc.consent">Consent to personal data processing</a></li>
-        <li><a href="offer.html" target="_blank" rel="noopener" data-t="doc.offer">Public offer</a></li>
+        <li><a href="/privacy" target="_blank" rel="noopener" data-t="doc.privacy">Privacy policy</a></li>
+        <li><a href="/consent" target="_blank" rel="noopener" data-t="doc.consent">Consent to personal data processing</a></li>
+        <li><a href="/offer" target="_blank" rel="noopener" data-t="doc.offer">Public offer</a></li>
       </ul>
     </div>
     <div class="f-col f-form">
@@ -1316,12 +1316,12 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
       <label class="fld"><span data-t="fb.contact">Email or Telegram</span><input id="fb-contact" name="contact" autocomplete="email" required></label>
     </div>
     <label class="fld"><span data-t="fb.msg">Message</span><textarea id="fb-msg" name="message" rows="1" required></textarea></label>
-    <label class="chk"><input type="checkbox" id="fb-consent" name="consent" required><span data-t-html="fb.consent">I give my <a href="consent.html" target="_blank" rel="noopener">consent to the processing of personal data</a> and accept the <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a></span></label>
+    <label class="chk"><input type="checkbox" id="fb-consent" name="consent" required><span data-t-html="fb.consent">I give my <a href="/consent" target="_blank" rel="noopener">consent to the processing of personal data</a> and accept the <a href="/privacy" target="_blank" rel="noopener">privacy policy</a></span></label>
     <div class="fb-foot"><button class="fb-send" id="fb-send" type="submit" data-t="fb.send">Send</button><p class="fb-status" id="fb-status" role="status" aria-live="polite"></p></div>
   </form>
     </div>
   </div>
-  <p class="disc" data-t-html="disc">The information on this website is not a public offer. The terms of service are set out in the <a href="offer.html" target="_blank" rel="noopener">Public Offer</a>. Figures and examples on the website are based on demo data. Trademarks and logos of banks and accounting software belong to their respective owners and are used to indicate compatibility; their mention does not imply partnership or endorsement.</p>
+  <p class="disc" data-t-html="disc">The information on this website is not a public offer. The terms of service are set out in the <a href="/offer" target="_blank" rel="noopener">Public Offer</a>. Figures and examples on the website are based on demo data. Trademarks and logos of banks and accounting software belong to their respective owners and are used to indicate compatibility; their mention does not imply partnership or endorsement.</p>
   <div class="legal">
     <span data-t="ie">IE Serebryakov Dmitry Sergeevich</span>
     <span data-t="inn">INN 645053987663</span>
@@ -1411,14 +1411,25 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     window.scrollTo(0,0);
     requestAnimationFrame(()=>{ fitPeek(); depth() });
   }
+  /* clean URLs: /products, /solutions, /about, /signed; "/" is the card */
+  const PAGE_IDS = ["products","solutions","about","signed"];
+  const routeOf = () => location.pathname.replace(/^\/+|\/+$/g, "").replace(/\.html$/, "");
+  const go = name => { show(name); dispatchEvent(new Event("jbd:route")); };
   document.addEventListener("click", e=>{
-    const a = e.target.closest("a[href^='#']"); if(!a) return;
+    if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest("a[href]"); if(!a || a.target) return;
+    const href = a.getAttribute("href"); let name;
+    if (href === "/" || href === "#") name = "";
+    else { const m = /^[\/#]([a-z]+)$/.exec(href); if (!m || !PAGE_IDS.includes(m[1])) return; name = m[1]; }
     e.preventDefault();
-    const h = a.getAttribute("href").slice(1);
-    try{ history.replaceState(null,"", h ? location.pathname+location.search+"#"+h : location.pathname+location.search) }catch(_){}
-    show(h);
+    const url = "/" + name + location.search;
+    try{ if (routeOf() !== name) history.pushState(null, "", url); }catch(_){}
+    go(name);
   });
-  addEventListener("hashchange", ()=>show(location.hash.slice(1)));
+  addEventListener("popstate", ()=>go(routeOf()));
+  /* old links like /#solutions keep working and turn into /solutions */
+  { const h = location.hash.slice(1);
+    if (PAGE_IDS.includes(h)) { try{ history.replaceState(null, "", "/" + h + location.search) }catch(_){} } }
 
   /* ---------- card 1 sinks back as card 2 slides over ---------- */
   const front = document.getElementById("front"), back = document.getElementById("back");
@@ -2035,7 +2046,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
       <h3 class="item-name">${esc(x.name[l])}</h3>
       <p class="bundle-line">${esc(x.line[l])}</p>
       <ul class="bundle-parts">${x.items.map((c, i) => `<li><button type="button" class="xref" data-go="${c}">${esc(plain(x.parts[l][i]))}</button></li>`).join("")}</ul>
-      ${x.case ? `<a class="case" href="#${x.caseLink}">${esc(x.case[l])}</a>` : ""}
+      ${x.case ? `<a class="case" href="/${x.caseLink}">${esc(x.case[l])}</a>` : ""}
       <div class="bundle-foot">
         <span class="bundle-price"><s>${money(x.total, l)}</s> ${fromP(x.price, l)}</span>
         <button type="button" class="add" data-add-bundle="${x.id}"></button>
@@ -2086,7 +2097,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
      Set in the page head as window.JBD_LEAD. */
   const LEAD = () => window.JBD_LEAD || "";
   const MAILTO = "hello@justbusinessdarling.com";
-  const DOCS = { consent: "consent.html", privacy: "privacy.html", offer: "offer.html" };
+  const DOCS = { consent: "/consent", privacy: "/privacy", offer: "/offer" };
   const CH = ["phone", "tg", "wa", "max", "mail", "other"];
   let step = "project", leadMsg = "", leadErr = false, sending = false;
   const lead = { name: "", channel: "tg", contact: "", comment: "", c1: false, c2: false, hp: "" };
@@ -2445,7 +2456,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     } else sigEl.classList.add("written");
   }
 
-  applyLang(); show(location.hash.slice(1)); fitPeek();
+  applyLang(); showNow(routeOf()); fitPeek();
 })();
 </script>
 <script type="importmap">
@@ -3155,7 +3166,7 @@ async function start(){
   }
   var rq = 0; function rr(){ if (!rq) rq = requestAnimationFrame(function(){ rq = 0; reveal(); }); }
   addEventListener("scroll", rr, { passive: true }); addEventListener("resize", rr);
-  addEventListener("hashchange", function(){ setTimeout(reveal, 60); }); addEventListener("jbd:lang", function(){ setTimeout(reveal, 30); });
+  addEventListener("jbd:route", function(){ setTimeout(reveal, 60); }); addEventListener("jbd:lang", function(){ setTimeout(reveal, 30); });
   reveal();
 
   /* how we work: the step that crosses 40% of the screen lights up, its card fades in on the left */
@@ -3169,7 +3180,7 @@ async function start(){
     scenes.forEach(function(sc, i){ sc.classList.toggle("on", i === a); });
   }
   addEventListener("scroll", spy, { passive: true }); addEventListener("resize", spy);
-  addEventListener("hashchange", function(){ cur = -1; setTimeout(spy, 50); });
+  addEventListener("jbd:route", function(){ cur = -1; setTimeout(spy, 50); });
   spy();
 
   /* form */
@@ -3219,7 +3230,7 @@ async function start(){
     root.classList.toggle("nav-stuck", !!nav && nav.getBoundingClientRect().top <= parseFloat(getComputedStyle(nav).top) + 1);
   }
   addEventListener("scroll", function(){ if (!t) t = requestAnimationFrame(check); }, { passive: true });
-  addEventListener("hashchange", function(){ setTimeout(check, 80); });
+  addEventListener("jbd:route", function(){ setTimeout(check, 80); });
   check();
 })();
 </script>
