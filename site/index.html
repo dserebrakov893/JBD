@@ -485,6 +485,104 @@ html.cart-has:not(.cart-shown):not(.cart-away) .cart-tab{transform:translate(0,-
 .c-done{margin:0;font-size:16px;line-height:1.55;color:#e9e5dc}
 
 @media (prefers-reduced-motion:reduce){ #front{will-change:auto} .menu a,.contact a{transition:none} }
+
+/* ---------- phones: the wallet home ---------- */
+#wallet{display:none}
+@media (max-width:720px){
+  #wallet{display:block}
+  #home > #front,#home > #back{display:none!important}
+  #home{margin-bottom:0!important;padding:0!important;min-height:100svh}
+  html:has(#home:not([hidden])) .foot:not(.w-sheet){display:none}
+  html:has(#home:not([hidden])), html:has(#home:not([hidden])) body{overflow:hidden;overscroll-behavior:none}
+  html.foot-static .foot{position:relative}
+}
+#wallet{--wcw:min(calc(100vw - 30px), 420px);--wch:calc(var(--wcw) * 55 / 85);--wr:12px;-webkit-user-select:none;user-select:none}
+.w-desk{position:fixed;inset:0;background:radial-gradient(90% 60% at 50% 40%,#1c1915 0%,#100f0d 55%,#0a0a09 100%)}
+.w-card{position:fixed;z-index:2;left:50%;top:0;width:var(--wcw);height:var(--wch);margin-left:calc(var(--wcw) / -2);will-change:transform;touch-action:none;cursor:pointer;outline:none;color:var(--ink)}
+.w-paper{position:absolute;inset:0;border-radius:var(--wr);overflow:hidden;background:var(--tone) var(--stock) center/cover;background-blend-mode:multiply;
+  box-shadow:0 1.5px 0 #1d1c19,0 -10px 22px -12px rgba(0,0,0,.6),0 22px 34px -20px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.7)}
+.w-dim{position:absolute;inset:0;border-radius:var(--wr);background:#000;opacity:0;pointer-events:none}
+.w-t-white{--tone:#faf9f6}.w-t-ivory{--tone:#f3eee4}.w-t-pearl{--tone:#ecedea}.w-t-cotton{--tone:#f1e9db}.w-t-stone{--tone:#e5e2db}
+/* every mark is pressed into the paper, as on the desktop cards */
+.w-lp,.w-lp *{text-shadow:0 calc(-.005em - .3px) calc(.006em + .4px) rgba(0,0,0,.15),0 calc(.006em + .6px) calc(.004em + .2px) rgba(255,255,255,.75)}
+#wallet a{color:inherit;text-decoration:none}
+#wallet p{margin:0}
+
+.w-strip{position:absolute;left:0;right:0;top:0;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 17px}
+.w-ttl{font-size:17px;letter-spacing:-.003em}
+.w-lbl{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.w-body{position:absolute;left:17px;right:17px;top:48px;bottom:14px;display:flex;flex-direction:column}
+.w-btn{all:unset;box-sizing:border-box;cursor:pointer;align-self:flex-start;margin-top:auto;padding:8px 14px 7px;border-radius:999px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);
+  box-shadow:inset 0 1px 1.5px rgba(0,0,0,.16),inset 0 -1px 0 rgba(255,255,255,.75),inset 0 0 0 .75px rgba(29,28,25,.28)}   /* debossed */
+.w-btn:active{box-shadow:inset 0 1.5px 3px rgba(0,0,0,.24),inset 0 0 0 .75px rgba(29,28,25,.35)}
+
+/* blind embossing: no ink, only the impression */
+.w-blind{display:flex;gap:9px;filter:drop-shadow(0 -.8px .5px rgba(0,0,0,.3)) drop-shadow(0 .9px .3px #fff)}
+#wallet .plg-nika{aspect-ratio:151/178;--lg:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJcAAACyCAYAAABP/l38AAAQqklEQVR42u2dX2iV5x3HP2rcjjQycpGOBOKFFxmkwxZykTLL3IUDB16kFw66YYsdOJCSFXeRgRS3ZQUL2QhjFRykkJZUUEjFlRhWIRaVLCwB7VQ0LIGkxBCFBKKLEgPu4vm99ZienLx/nn/vOc8XXmJOPOc87/N839/z+/9AQEBAQEBAQECAaWwKU2AVdcABoBbYBtTIa8i/vwYuAF+FqQqIi2ZgDHga85oHzgD1YeoCyqEWOJ+AWMXXINCU1xvfEtbeOP4I7AdeSPHe7wKrwOUwjQFrcQS4kVJqRdcXQEOYyoBi1GsgVnT15nl7DNCPbk3EegrMijUZEAAapVZ0HQhTGhBhRTO5+vM2AXkRtQ0oZ+Ob8vsT4D4wDlz1dMxbNX/eqqzXaiCXPrSKQvvymtefABNCsFHgZBVIw1UCtOFEzC1jCRgGWjwa+6zmbbEr0EEfOlBhkKRWVasn4x/USKxpYHeghB7UobzSaRbiTM6kbkUq8wCbPR1XO9CW8r27gaMe3MNNYEbD59wTnTKQS5PU+lkGa6tRlH/XIZOzYmxkxS3gYiCXPutwV8bPeA3ldNzp8D4eayDXE2BICBbgka5yBpXu4hLNMo6099BHyOnSilOayOVLmkqTkCTp+Ecy6J0B66BHI7l8chIfi2kBLwgZQ5qNAXRqItewh1tKPXBcxlYq9jgN7K2UhfSxQGMP8BnPCheyWGs/93TeC6KPbZPft4uUXRT3xVwlkMvH2OIEcB34SYbPuOe5+f4YFSfsENdJQYj1FfChxXHUitsnSkTcKpx4JAQfknFVFLrI7tH2OXOzB1guoyt2YTZ/q0Ws2Gui460UXU/l5yQqxboHOFxJVmuz6CVpiHUNvxPrTpUhVvE1Jm6ZggGddizhnI4JyXZVkvRaTkGu455LrKRJhP2aiTWZ8qFdQZXIvVEpBOtPePN9Ht9LG+nTcHo1fP8h2eZ0OKdj7Qy+Jwv+UpTcZp5PlKsr0gGmUEHiv+J3Ml23KO9p8LYo2e+kfP8+Udx1uDkiYl1CZQNXJHbiNnaYBEfInlO/gnLEprEI/yaKu64UoCV5WEK5mwcY1rSoC0LUJNgF3EZvVuxTVHVTxZKrFhUiafZ8nN2aF/Vagu2tkFBvTXp1VxqpCrI9TK7ZMoZTbhsm0Yr+XPqoQUkcv1MbKgBuilyDlaRjdYg5vLLB09SG+3SbWo3bYSn961CMMTRp1rVKbY25Rr1sA0sJdZMBhz6ZGiH5ksGF7YkxjoMGvz+62vIusdI+ffNFi1BnccxtJPeCp8n6iOM0NU2uXHvtD6OnNOuISEDTvr1Ow3pOsXTu3GAsRy2MI9d5ZwPorf8bQIWWdIvzPbKYNywsaLH0KucO2G/4++c90G0zYdrg5MzK9jUg22erLFbNBvrUTtkO9ouUmrVIqCTugCbDYxuhTGDd927OBVTYwybGUflgD1HVN1HuVWQBvijkakJ/s5E0uAn8sMzfL6OqoUzgI+BXeZVaTQ4lQp6ujjJzeApzW2JZZ+5mz8n1EgFx8HqZ7elPqOC+boyyQV2m7+TaHngTC7tZ32MfHZygE/eA0+Q8BXpv2PK0NGBpIH1jl/WKdWN5krN4zgsiXXaI0jsjCvh9UYSz4q5HRL+LKqufknt8DNyR+4+2713Aq47GdwCVFv27En+bQ+W7bSN7i6kLwFsmyFUnhPotz1pJ7pDP2S5iclEWYE4G8mWGG5lxSKaoc+Et4FPRL1YpX/bVII7NfcAPHIy5A1U5dbrE387KOnXy7S6NcXEd+MTUwAcS+k0WRFwfyvC9aXO+0waEe1AtnLJ4nhtEitzG/vY4LU7i9QRHm6xJkrjnJAZ7b3SRzfN8A5UOk2ZwwxYWZEzG12xg3uZxo4MNUz5Tt1MIM1v0YC3IWo3IFZWWHTQlao+hJ6RxQyY7afZiH+bSRUz3GS2gr/dFmmtyAwlcUyThWsTq3CeGVL2slbGAf5fmbWlWnHpJlMp9Bpx/NjMom7EbbywllQ/hGUxG1AcS+nB05UW56i3a5JhgUSW3N017TeYjrSRQmGvQk8IyiN2crrU44lD/Klb2j+E4B2svZtNjn6LytOLiOGazB2yhG/fO1iWRYr2uSGYjgzFJS++WjGRfwI8axwLZq57nURVAgzKHfaJmnCd5+4N5sSq7sdRoJEsTEJMpsr0ZvseH1uHFBkrSHLVlIVMH6yc57syoJy8LQY2SrAP9J27pkF4HSZc4eBn/UnGTNBUeJlmhSVbH7awYPl0YOO6mD7sKZhKk6YzsWy1j8cNyeY0lvMSz7Nj+lC4E3XrdvBhUfToIN4zdcItJ90ge6urekAegW37u0/CZlzFrEIwI0ep8GlipKylsngNULwt+RrabZblmZZ76hfC+tRSosbR255OqHIMWibWQYuKS+LzSppd0CaEmE0jIQXmfL+0dbQX8+0jQ/bAfu8HVpGiJ+dlfpFDk96AnZtnpAblGLAqI2Nb4MYvkOpFy4jZS7Gcl5JJEiuzS6EFfIF65vUlcs7iOcRuj0G5JpGZVttfTDW+nsBAPkq7/apwYasERuaaxa5idiutFPu+x1IpwuMTTuZTCYdpm+GEalO3WNhawHxiPJb1sxMB0JKCdWDOJgyRPSLShY45ocjEkwbJlci2jKtA3xG4PrcRyOmKv6DhJ/S6dFiffZqfpWtwExWO11MxyxnSc6xTu0edg8m31sur3mVyIGL9haIvY45hYu7AXP7V9BmQLdotaiq/n+tOXq7geQtW66awdfACcI1u5mQ68hpsmIjssWI9RkxTbeICq44xFLlCN7D9CT6+BB8DHwAcebImusiR2oPo6mMQBRw/OOGtqOjcqip0A3pM3HSD9MXVTwN89IRa4KVgt3rZMSy4XmCDDiRp7RBFP4pxbFkeib30zbQfnbRaJLDi6r8M6Br9fTP/LQrSlEm6Ga6gQTTv+nS/UgttOgCOYa/XY6uieZktJ5DQL/7lctagGHLtR3fai006vonoK+HroUBtuMxe2y/Uwh1vueriO6qmRmVwRHqIagI2SL2zHbbvJOoPS3FWzvJJN4DZTnXji8LsXeXZwuk4UHOm2U7KTBXLJ4ro8l/G+oe9vxE1vsE/X272qkVwPHOuDd9Hf1K5GrHnbFeUXUE5xArme6QcuOxZOoafr4lq8bfk+7gAnKdN0txrJ9bVjyWWis3Id2dtRJsXQerpWtSv0rsj1AP1x1agV5TbL93J6o/9QreSacPS9Nw1Irjrst0YaJ38uKGuow27xbxQKM1H9bbtzTuyUqazOvIIsVDOqQ3D076ht+ARwkfIdkF3gkYyrFXsHKQwB72v+zFpiphZrxFkDW/s3eUiHUcHoJAHsSVR++3HchSjWogF7tX3TlD+fJ62u1Yv9OKLWXLF2uYlB9NT1TeJHmnO0pSxhJ3++VrPEOmpp7GuTEmp1PRk9mEvhuOyJFOvHbMrzeQMSS2cBr+kK+ZLoxHxu0DTuG7M1iWS5begB0l0v0I7dgtfiq13XTdg8/eE8bhMK60Un0pVEuILKZ9Pt2OzAbdNeLS6P444G71qKHdbwUE1S/niUtOjBXZZpdGkp7D3v8AbaHRMs0jVHEupiK2L06O7VVYe5016tr81eh3t6lDLbgXsURAINlyHZghCqGzPn47SI28eXMx0zn8RxzIObWMBu+XscaVYrhKtHVdiYrrI57CCKsNF1POtNdXl0M2eoPtSIJLzhGbGiRi+ZLRKfbmgAc9UyPhGqiWcdnn096ngkyU1tKvHaLlRl9MseTf4V4F02OA3eAmpRschtRdbgI/kZvT6FytGPUmBW5feta17fIaZ9oxCrEbuxzjSYAV4h48HpRz19avY7mNADsj0veCxRbJ4bpKUVgo97/rxEDkxvk+2ivA4GQn3r0hKyO+HxDU4bkGJtuMkyyNulxQ/Z6qn00t0x+Qiq/UDY9jQfLVguRDGOKs13VcUbx3P9uijInxI/ga21yNx/jYCkqNf5QSM5eJpuiNK9v4yVd0S2vZEgfdz6utYqt7dzdPMrovjPyla3Egih3WqPVXy7Jcb/uQ18H/hxTsT2FuCFIr/TlrCTacV3gP8ILzKTC4lx7fTMsRrgBi8A/yVGVmqSusV3gc/C3AYQM2ifhFyLwJuoRl8B1Y1G3eQC1fDtLBljSwG5R4MJcoEq7PwwzG9VI5a1uCnDFwxgvqd6gL/YygZN7LKQaycqWzR4uf3AdVS6Tw3KDdOCaoRsCqaaBn+DYwQnpS8p4QWeD+e1ogp+TcVMrbSAHw4L7PTaqDXCKcyU/VvB0bDA3hLLFMHmbZGrAHwRFtr61ZNwnY6gJ/lxAVXEsyF0xN1WUWGhHwWd2io+IEZ8rwj/Bv4na96ccu0XUafYnY4jvXQpZathra3jXMr3RO0m95Osj+pd1BGJ14Gv4rxBF7luhrW2iizzPYdqK/5nsSjLNUt5gup+PYVKHr2E6pCITXJNhfW2io8yvv8h8Gsh1j5UmVs9qkxunOfDe1+mXd9Nmm62JUgva5hCHUaqUxWpEcNsFY0HMOiSXPfDmlvDJQM67ioGvO2bNZIrZErkY0u0Bp2HHNjUu+6I1fKgCsl1tRrJdc/CeGdQgfJXgF+gfD3VZExUreF0BrMe6TFUJkZtCWNijOrwyvfliRA6JZdJnWtcTOeZEornLeCnqLP/KhnRqR9VCVNn0FxDdZqJg64KlloDeSOETsllqnDjIipvPw7ew30PL1O4Wc3kMnHM3BPgHwnf83aFkmuimsn1AP2n3k+Q/ISsVSqzgGSGKkYzqj+DD00v6qisxm2zeSSE7pNidVuM9zOM46IBSeoK44Fc+pHFA/+XPOop6+idl7BUEOGzzqUbWQK0NVRG64GrYi2vVjO5HhsY32hGYr6PyqDMKxZFas3lcfC6t0Xd0ivrtnZLFievuAD8gZymkfu8LT7SZCC8Qz4DvleAT/K8n+skl9YsRrEUH2ki/ZWcrUsURxwK5Hp+UnSSa04T6U+Sr9yvIXKUFGiLXDoll05FfDRHutdNIdbXgVzmoFvSnMROQmNWfAZ8TgXAZ3Lp9vYPka6Q1LZ1+B4VAt3k0mkym+j99Hv8DaVcEbcDgVzmYcJ9MOcpue6IdTgayLU+dAaKTaWYXMC/gPZXlSa1TJBLl7RZxJzj8xx+lWc9ILRfjw1dvafqDY7Rp4Z1Y6jjiAmSy7yVd1P0IpMtAkY9k1y3Arni4VLG91/HfAnVVfzKllgM5IqH3wjB0kzYHVTOvI0UE1/0rkcEpNJr4uSxr6A6QncDb1gc3x78aHM+GKiSDvWinJc6K3sZdTBkF7DXsAJfCgX8aHN+PtBEz2LWo3o7FIpec4luD8h1JlCjMtEQyJUvhT5PmMN9psSTQK7KhetY4+NArkCugECuxDiH2wKOR4FclS25/uXw+1cDuSobV8MUBHKZwmglW22BXO63xtNhGgK5TOEtVOvxgEAuI/jYwXfeCtNePbB56u0K9gP2QXI5xIfYc6xOEPK5qg47gV7MnGpffPXiPjPEGLYEHpXEIuoM54fASyQ7rjcuLqHaoI8FclUfZlG5/DXA94BGjcS9CPwT1X9rpVIncFPgUCwUUImFrbJlvpjiM+6iik9uUSV+tUCu5GgCXkVl1DaiEg4bxeoroFJoVlElY3dRJXIzqJZIF6miY+0CubKjTq6CbKEvCqnmCKfnBgQEBAQEBCj8H+c668nB4H00AAAAAElFTkSuQmCC")}#wallet .plg-vet{aspect-ratio:1;--lg:url("data:image/png;base64,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")}
+.w-mk{display:block;height:18px;background:var(--tone);-webkit-mask:var(--lg) center/contain no-repeat;mask:var(--lg) center/contain no-repeat}
+.w-seal{width:24px;height:24px;filter:drop-shadow(0 -.8px .5px rgba(0,0,0,.32)) drop-shadow(0 .9px .3px #fff)}
+.w-seal path{stroke:var(--tone)}.w-seal .w-seal-d{fill:var(--tone);stroke:none}
+
+/* products */
+.w-head{font-size:clamp(16px,4.6vw,19px);line-height:1.22;letter-spacing:-.006em}
+.w-prods{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:auto}
+.w-prod{display:flex;gap:8px;align-items:flex-start}
+.w-prod .w-mk{height:24px;flex:none;filter:drop-shadow(0 -.4px .3px rgba(0,0,0,.25))}
+.w-ink-nika{background:#d4703f}.w-ink-vet{background:#c22a55}
+.w-prod b{display:block;font-weight:400;font-size:14px;line-height:1.1}
+.w-prod > span > span{display:block;margin-top:2px;font-size:11px;line-height:1.25;color:var(--ink-2)}
+.w-prods + .w-btn{margin-top:10px}
+
+/* about */
+.w-sig{display:block;width:66%;height:auto;margin:2px 0 0 -3px;filter:drop-shadow(0 -.5px .6px rgba(0,0,0,.15)) drop-shadow(0 .86px .38px rgba(255,255,255,.75))}
+.w-text{margin-top:8px!important;font-size:clamp(12.5px,3.6vw,14px);line-height:1.36;color:var(--ink-2)}
+
+/* documents & contact */
+.w-cols{display:grid;grid-template-columns:.8fr 1.2fr;gap:0 12px;margin-top:2px}
+.w-cols a{display:block;font-size:clamp(12.5px,3.6vw,14px);line-height:1.2;margin-bottom:5px}
+.w-row{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.w-row .w-btn{margin-top:0;align-self:auto}
+.w-req{font-size:10px;line-height:1.45;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+
+/* the business card: the desktop front, smaller */
+.w-biz .w-flip{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.w-side{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.w-back{transform:rotateY(180deg)}
+.w-biz .w-paper{box-shadow:0 1.5px 0 #1d1c19,0 22px 34px -20px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.7)}
+.w-fr{position:absolute;inset:0;padding:calc(var(--wcw) * .062) calc(var(--wcw) * .066) 0}
+.w-top{display:flex;justify-content:space-between;align-items:flex-start}
+.w-lines{margin-top:calc(var(--wcw) * .012)!important;font-size:calc(var(--wcw) * .036);line-height:1.38}
+.w-logo{font-size:calc(var(--wcw) * .205);line-height:.8;margin-right:-.03em!important}
+.w-menu{position:absolute;left:0;right:0;bottom:calc(var(--wcw) * .05);display:flex;flex-direction:column;align-items:center}
+.w-menu a{font-size:calc(var(--wcw) * .045);line-height:1;padding:calc(var(--wcw) * .011) 22px}
+.w-bk{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.w-legal{position:absolute;top:calc(var(--wcw) * .05);left:0;right:0;text-align:center;font-size:calc(var(--wcw) * .025);line-height:1.6;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+.w-bk .w-sig{width:70%;margin:8% 0 0}
+.w-tag{margin-top:calc(var(--wcw) * .012)!important;font-size:calc(var(--wcw) * .037)}
+
+.w-hint{position:fixed;z-index:1;left:0;right:0;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#6c675e;transition:opacity .4s}
+
+/* the feedback form: the footer's own form, on a sheet from below */
+.w-scrim{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);opacity:0;pointer-events:none}
+.foot.w-sheet{position:fixed!important;z-index:61;left:0;right:0;top:auto;bottom:0;padding:4px 22px calc(22px + env(safe-area-inset-bottom,0px))!important;border-radius:20px 20px 0 0;
+  transform:translateY(110%);will-change:transform;max-height:92svh;overflow:auto;display:block!important}
+.w-grip{height:22px;display:flex;align-items:center;justify-content:center;touch-action:none}.w-grip i{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.22)}
+@media (prefers-reduced-motion:reduce){.w-hint{transition:none}}
+
+/* phones: the language switch on the dark desk */
+@media (max-width:720px){
+  html:has(#home:not([hidden])) .lang{background:rgba(255,255,255,.06);-webkit-backdrop-filter:none;backdrop-filter:none}
+  html:has(#home:not([hidden])) .lang button{color:#8a8479}
+  html:has(#home:not([hidden])) .lang button[aria-pressed="true"]{background:#efece6;color:#1d1c19}
+  /* the pages, a step smaller on a phone */
+  .page .h-xl{font-size:33px!important}
+  #solutions .h-xl{font-size:29px!important}
+  .page .lead{font-size:17px!important}
+  .page .h-m{font-size:20px!important}
+  #solutions .cat-title{font-size:22px!important}
+  #about .word{font-size:68px!important}
+}
+
 </style>
 <style>
 /* ---------- footer: four columns, then the disclaimer and the legal line ---------- */
@@ -1121,6 +1219,66 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
 <main id="home" class="card">
 
   <!-- Card 1 -->
+  <!-- phones: the home page is a wallet of cards (back of the stack first, the business card in front) -->
+<div id="wallet" aria-label="JBD">
+  <div class="w-desk" aria-hidden="true"></div>
+
+  <div class="w-card w-t-stone" data-k="docs" tabindex="0" role="button"><div class="w-paper">
+    <div class="w-strip"><span class="w-ttl w-lp"><span data-l="ru">Документы и связь</span><span data-l="en">Documents &amp; contact</span></span><span class="w-lbl w-lp">© 2026 JBD</span></div>
+    <div class="w-body">
+      <div class="w-cols">
+        <nav><a class="w-lp" href="/products"><span data-l="ru">Продукты</span><span data-l="en">Products</span></a><a class="w-lp" href="/solutions"><span data-l="ru">Решения</span><span data-l="en">Solutions</span></a><a class="w-lp" href="/about"><span data-l="ru">О нас</span><span data-l="en">About</span></a><a class="w-lp" href="/signed"><span data-l="ru">Подписано</span><span data-l="en">Signed</span></a></nav>
+        <nav><a class="w-lp" href="/privacy" target="_blank" rel="noopener"><span data-l="ru">Политика конфиденциальности</span><span data-l="en">Privacy policy</span></a><a class="w-lp" href="/consent" target="_blank" rel="noopener"><span data-l="ru">Согласие на обработку данных</span><span data-l="en">Consent to data processing</span></a><a class="w-lp" href="/offer" target="_blank" rel="noopener"><span data-l="ru">Публичная оферта</span><span data-l="en">Public offer</span></a></nav>
+      </div>
+      <div class="w-row"><span class="w-req w-lp"><span data-l="ru">ИП Серебряков Д. С.</span><span data-l="en">IE Serebryakov D. S.</span><br><span data-l="ru">ИНН 645053987663</span><span data-l="en">INN 645053987663</span></span>
+        <button class="w-btn w-lp" type="button" data-act="form"><span data-l="ru">Написать нам</span><span data-l="en">Write to us</span></button></div>
+    </div></div><i class="w-dim"></i></div>
+
+  <div class="w-card w-t-cotton" data-k="about" tabindex="0" role="button"><div class="w-paper">
+    <div class="w-strip"><span class="w-ttl w-lp"><span data-l="ru">О нас</span><span data-l="en">About</span></span>
+      <svg class="w-seal" viewBox="0 0 380 380" aria-hidden="true"><path d="M186 38 C 100 34 36 100 38 196 C 40 280 108 344 192 342 C 280 340 342 272 340 186 C 338 104 278 44 196 40 C 190 39 184 37 176 35" fill="none" stroke-width="13" stroke-linecap="round"/><path class="w-seal-d" d="M202.0 201.5 211.4 187.2Q210.5 186.9 209.6 186.9Q197.3 186.9 177.4 205.6Q157.6 224.3 157.6 232.0Q157.6 234.0 159.9 234.0Q167.2 234.0 182.1 221.6Q197.0 209.1 202.0 201.5ZM267.3 196.0Q206.4 245.1 193.5 245.1Q188.6 245.1 188.6 239.3Q188.6 233.4 193.0 219.7Q193.0 219.4 192.4 219.4Q158.7 247.2 147.6 247.2Q140.0 247.2 140.0 241.6Q140.0 229.3 166.5 205.6Q193.0 181.9 208.8 181.9Q210.8 181.9 213.1 184.9Q219.9 174.9 288.6 76.9Q295.9 67.8 300.5 67.8Q305.0 67.8 305.0 70.8Q305.0 78.1 254.7 139.8Q236.0 163.2 220.3 188.5Q204.7 213.8 204.7 227.0Q204.7 232.5 207.9 232.5Q211.7 232.5 221.3 225.8Q241.2 211.5 256.1 199.5L261.7 194.8Q263.8 193.3 265.5 193.3Q267.3 193.3 267.3 195.4Z"/></svg></div>
+    <div class="w-body">
+      <img class="w-sig" data-sig alt="just business, darling">
+      <p class="w-text w-lp"><span data-l="ru">Создаем в России технологии, которыми пользуются каждый день и которым доверяют здоровье, деньги и бизнес.</span><span data-l="en">We build technology in Russia that is used every day and trusted with health, money and business.</span></p>
+      <a class="w-btn w-lp w-open" href="/about"><span data-l="ru">Открыть раздел</span><span data-l="en">Open</span></a>
+    </div></div><i class="w-dim"></i></div>
+
+  <div class="w-card w-t-pearl" data-k="solutions" tabindex="0" role="button"><div class="w-paper">
+    <div class="w-strip"><span class="w-ttl w-lp"><span data-l="ru">Решения</span><span data-l="en">Solutions</span></span><span class="w-lbl w-lp"><span data-l="ru">Студия JBD</span><span data-l="en">JBD studio</span></span></div>
+    <div class="w-body">
+      <p class="w-head w-lp"><span data-l="ru">Проектируем, разрабатываем и сопровождаем цифровые продукты для людей и бизнеса</span><span data-l="en">We design, build and support digital products for people and businesses</span></p>
+      <a class="w-btn w-lp w-open" href="/solutions"><span data-l="ru">Собрать проект</span><span data-l="en">Build a project</span></a>
+    </div></div><i class="w-dim"></i></div>
+
+  <div class="w-card w-t-ivory" data-k="products" tabindex="0" role="button"><div class="w-paper">
+    <div class="w-strip"><span class="w-ttl w-lp"><span data-l="ru">Продукты</span><span data-l="en">Products</span></span><span class="w-blind"><i class="w-mk plg-nika"></i><i class="w-mk plg-vet"></i></span></div>
+    <div class="w-body">
+      <p class="w-head w-lp"><span data-l="ru">Инвестируем. Развиваем. Продвигаем.</span><span data-l="en">We invest. We build. We grow.</span></p>
+      <div class="w-prods">
+        <div class="w-prod"><i class="w-mk plg-nika w-ink-nika"></i><span class="w-lp"><b>NIKA</b><span data-l="ru">Спортивно-культурный бренд</span><span data-l="en">Sport and culture brand</span></span></div>
+        <div class="w-prod"><i class="w-mk plg-vet w-ink-vet"></i><span class="w-lp"><b><span data-l="ru">ВетФинанс</span><span data-l="en">VetFinance</span></b><span data-l="ru">Финансы ветклиник в Telegram</span><span data-l="en">Vet clinic finance in Telegram</span></span></div>
+      </div>
+      <a class="w-btn w-lp w-open" href="/products"><span data-l="ru">Открыть раздел</span><span data-l="en">Open</span></a>
+    </div></div><i class="w-dim"></i></div>
+
+  <div class="w-card w-biz w-t-white" data-k="card" tabindex="0" role="button"><div class="w-flip">
+    <div class="w-side"><div class="w-paper" id="w-front"><div class="w-fr">
+      <div class="w-top"><p class="w-lines w-lp"><span data-l="ru">Собственные продукты.<br>Решения для бизнеса.</span><span data-l="en">Our own products.<br>Solutions for business.</span></p><p class="w-logo w-lp">jbd</p></div>
+      <nav class="w-menu"><a class="w-lp" href="/products" data-pick="products"><span data-l="ru">Продукты</span><span data-l="en">Products</span></a><a class="w-lp" href="/solutions" data-pick="solutions"><span data-l="ru">Решения</span><span data-l="en">Solutions</span></a><a class="w-lp" href="/about" data-pick="about"><span data-l="ru">О нас</span><span data-l="en">About</span></a></nav>
+    </div></div></div>
+    <div class="w-side w-back"><div class="w-paper"><div class="w-bk">
+      <p class="w-legal w-lp"><span data-l="ru">ИНН 645053987663 · ОГРНИП 326645700053239</span><span data-l="en">INN 645053987663 · OGRNIP 326645700053239</span><br><a href="mailto:hello@justbusinessdarling.com">hello@justbusinessdarling.com</a></p>
+      <img class="w-sig" data-sig alt="just business, darling">
+      <p class="w-tag w-lp"><span data-l="ru">Ваш цифровой партнер</span><span data-l="en">Digital by your side</span></p>
+    </div></div></div>
+  </div><i class="w-dim"></i></div>
+
+  <p class="w-hint" id="w-hint"><span data-l="ru">Коснитесь карты</span><span data-l="en">Tap a card</span></p>
+
+  <div class="w-scrim" id="w-scrim"></div>
+  <div class="w-sheet foot" id="w-sheet" aria-hidden="true"><div class="w-grip"><i></i></div><div class="w-slot" id="w-slot"></div></div>
+</div>
+
   <section id="front" class="stock c1" aria-label="Card 1">
     <div class="f-top">
       <p class="f-lines">
@@ -1440,7 +1598,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
   let ticking=false;
   function depth(){
     ticking=false;
-    if(home.hidden || reduce) return;
+    if(home.hidden || reduce || innerWidth <= 720) return;
     const docTop = back.getBoundingClientRect().top + scrollY;
     const p = Math.min(1, Math.max(0, scrollY / Math.max(1, docTop - 10)));
     front.style.transform = p ? `scale(${1 - p*0.05})` : "";
@@ -1455,13 +1613,13 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
   function fitFoot(){
     const foot = document.querySelector(".foot");
     root.classList.remove("foot-static");
-    const footH = foot.offsetHeight, fixed = footH <= innerHeight - 24;
+    const footH = foot.offsetHeight, fixed = innerWidth > 720 && footH <= innerHeight - 24;
     root.classList.toggle("foot-static", !fixed);
     root.style.setProperty("--foot-real", (fixed ? footH : 0) + "px");
     return { footH, fixed };
   }
   function fitPeek(){
-    if(home.hidden){ fitFoot(); return; }
+    if(home.hidden || innerWidth <= 720){ fitFoot(); home.style.marginBottom = ""; return; }
     const u = Math.min(innerWidth/1440, innerHeight/1024);
     const gap = innerWidth <= 720 ? 44 : Math.max(40, 95*u);      /* contact line → top edge of card 2 */
     const over = innerWidth <= 720 ? 40 : Math.max(32, 64*u);     /* how far card 2 lies over card 1 at the start */
@@ -2062,8 +2220,8 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     if (!solRoot) return;
     const l = lang, u = UI[l], h = SOL.head[l];
     const lead = l === "ru"
-      ? "Соберите проект из решений: добавляйте нужное, и справа посчитается сумма «от». Итог фиксируем в смете после разбора задачи."
-      : "Put your project together: add what you need and the starting price adds up on the right. The final amount is fixed in an estimate after a review.";
+      ? "Соберите проект из решений: добавляйте нужное, и сумма «от» посчитается сама. Итог фиксируем в смете после разбора задачи."
+      : "Put your project together: add what you need and the starting price adds up as you go. The final amount is fixed in an estimate after a review.";
     solRoot.innerHTML = `
       <header class="dhead sol-head">
         <div><span class="mono eyebrow">${esc(h.eyebrow)}</span><h1 class="h h-xl" style="margin-top:16px">${esc(h.title)}</h1></div>
@@ -2674,7 +2832,9 @@ function darkSteel(src){
 async function start(){
   const cv = document.getElementById("icv");
   const glow = intro.querySelector(".iglow");
-  const front = document.getElementById("front"), back = document.getElementById("back");
+  /* on a phone the home page is the wallet: the card lands on the wallet's business card, and there is no second card */
+  const MW = innerWidth <= 720 ? document.getElementById("w-front") : null;
+  const front = MW || document.getElementById("front"), back = document.getElementById("back");
 
   const gltfP = loadCase();
   if (document.fonts) {
@@ -2775,12 +2935,12 @@ async function start(){
   const shadow = new THREE.Mesh(new THREE.PlaneGeometry(6000, 6000), shadowMat); shadow.position.set(0, 0, -90); shadow.receiveShadow = true; scene.add(shadow);
 
   /* ----- the real cards ----- */
-  const paperF = await loadPaper(front), paperB = await loadPaper(back);
+  const paperF = await loadPaper(front), paperB = MW ? paperF : await loadPaper(back);
   const texOf = c => { const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = maxAniso; return t; };
   let snapF, snapB;
   const tex = {};
   function makeTextures(){
-    snapF = snapshot(front, paperF, maxTex); snapB = snapshot(back, paperB, maxTex);
+    snapF = snapshot(front, paperF, maxTex); snapB = MW ? snapF : snapshot(back, paperB, maxTex);   // on a phone the second card is not on the page
     Object.values(tex).forEach(t => t.dispose());
     tex.f = texOf(snapF.canvas); tex.b = texOf(snapB.canvas);
     tex.plain = texOf(snapshot(front, paperF, 1024, false).canvas);
@@ -2834,9 +2994,10 @@ async function start(){
     const w = innerWidth, h = innerHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    portrait = h > w * 1.05;
+    portrait = !MW && h > w * 1.05;   // the wallet card is landscape: keep the case landscape too
     const sw = portrait ? H : W, sh = portrait ? W : H;
-    D = Math.max(sw / (.40 * 2 * tanH * camera.aspect), sh / ((portrait ? .40 : .36) * 2 * tanH));
+    const fw = MW ? .82 : .40;   // on a narrow screen the landscape case may take most of the width
+    D = Math.max(sw / (fw * 2 * tanH * camera.aspect), sh / ((portrait ? .40 : .36) * 2 * tanH));
     camera.position.set(0, 0, D); camera.lookAt(0, 0, 0); camera.updateProjectionMatrix();
     base.rotation.z = portrait ? PI / 2 : 0;
     placeCards();
@@ -2975,7 +3136,7 @@ async function start(){
   }
   let backT = null;
   function poseBack(t){
-    if (t < TB0) return;
+    if (MW || t < TB0) return;
     if (!backFly.visible) backFly.visible = true;
     const k = smoother(seg(t, TB0, TB1));
     backFly.position.set(backT.x, lerp(backT.y0, backT.y, k), 1.5);
@@ -3245,6 +3406,187 @@ async function start(){
   var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }); }, { threshold: .6 });
   document.querySelectorAll(".reg-row").forEach(function(r){ io.observe(r); });
 })();
+</script>
+<script>
+/* ---------- phones: the wallet home ----------
+   The home page on a phone is a stack of cards, like Apple Wallet. The business card lies in front in full,
+   the sections show their strips behind it. A card you touch rises to the top, the rest drop into a pile.
+   Springs (response, damping ratio) start from the live value and keep velocity, so any motion can be caught. */
+(function(){
+  const root = document.documentElement, wallet = document.getElementById("wallet");
+  if (!wallet) return;
+  const mq = matchMedia("(max-width:720px)");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const PI = Math.PI, clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  function S(x, resp = .42, z = 1){ return { x, v: 0, to: x, resp, z,
+    step(dt){ if (reduce) { this.x = this.to; this.v = 0; return; } const w = 2 * PI / this.resp; this.v += ((this.to - this.x) * w * w - 2 * this.z * w * this.v) * dt; this.x += this.v * dt; },
+    idle(){ return Math.abs(this.to - this.x) < .02 && Math.abs(this.v) < .02; } }; }
+
+  // the signature image is already on the page: reuse it instead of a second copy
+  const sigSrc = (document.querySelector("#back .sig") || {}).src;
+  if (sigSrc) wallet.querySelectorAll("[data-sig]").forEach(i => i.src = sigSrc);
+
+  const els = [...wallet.querySelectorAll(".w-card")];       // back → front
+  const K = els.map(e => e.dataset.k);
+  const C = els.map(e => ({ el: e, y: S(0), s: S(1, .32), d: S(0, .35), dim: e.querySelector(".w-dim"), delay: 0, t0: 0, yT: 0, sT: 1, dT: 0 }));
+  const biz = C[C.length - 1], flipEl = biz.el.querySelector(".w-flip"), sides = biz.el.querySelectorAll(".w-side");
+  const flip = S(0, .55, .8);
+  const hint = document.getElementById("w-hint");
+  let picked = null, H = 0, CH = 0, PEEK = 48, TOP = 0, STACK0 = 0, dealt = false;
+
+  function measure(){
+    H = innerHeight; CH = els[0].offsetHeight || 1;
+    TOP = 62;
+    PEEK = clamp((H - TOP - CH - 120) / (els.length - 1), 36, 48);
+    const stackH = PEEK * (els.length - 1) + CH;
+    STACK0 = Math.max(TOP, Math.round((H - stackH) / 2) - 16);
+    hint.style.top = (STACK0 + stackH + 24) + "px";
+  }
+  /* targets for a state; cards further from the one you touched start a beat later, so the stack fans like a deck */
+  function targets(from){
+    const n = C.length, fi = from == null ? n - 1 : K.indexOf(from), t0 = performance.now();
+    if (!picked) C.forEach((c, i) => { c.delay = Math.abs(i - fi) * .028; c.yT = STACK0 + i * PEEK; c.sT = 1; c.dT = 0; });
+    else {
+      const pi = K.indexOf(picked); let j = 0;
+      C.forEach((c, i) => {
+        c.delay = Math.abs(i - pi) * .028;
+        if (i === pi) { c.yT = TOP; c.sT = 1; c.dT = 0; return; }
+        const k = j++, rest = n - 2;                        // the pile at the bottom: only the edges show
+        c.yT = H - 34 - (rest - k) * 7; c.sT = .9 + k * .02; c.dT = .34 - k * .07;
+      });
+    }
+    C.forEach((c, i) => { c.t0 = t0; c.el.style.zIndex = picked && K[i] === picked ? 12 : 2 + i; });
+    hint.style.opacity = picked ? 0 : 1;
+    kick();
+  }
+  function pick(k, from){ if (picked === k) return; picked = k; targets(from ?? k); if (navigator.vibrate) navigator.vibrate(4); }
+
+  /* ---------- input ---------- */
+  let g = null;
+  const front = c => !picked ? c === biz : K[C.indexOf(c)] === picked;   // the card whose face is fully shown
+  els.forEach((el, i) => el.addEventListener("pointerdown", e => {
+    if (sheetOpen) return;
+    const c = C[i];
+    g = { c, i, x: e.clientX, y: e.clientY, y0: c.y.x, moved: 0, drag: false, pts: [{ t: e.timeStamp, y: e.clientY }], t: e.target };
+    c.s.to = .985; kick();                                   // the card answers the touch at once
+  }));
+  addEventListener("pointermove", e => {
+    if (!g) return;
+    const dy = e.clientY - g.y; g.moved = Math.max(g.moved, Math.abs(e.clientX - g.x), Math.abs(dy));
+    g.pts.push({ t: e.timeStamp, y: e.clientY }); if (g.pts.length > 6) g.pts.shift();
+    if (picked && K[g.i] === picked) {                       // the open card follows the finger; down puts it back, up resists
+      if (!g.drag && Math.abs(dy) > 8) { g.drag = true; try { g.c.el.setPointerCapture(e.pointerId); } catch (_) {} }
+      if (g.drag) { g.c.y.x = g.c.y.to = g.y0 + (dy >= 0 ? dy : -rub(-dy, 120)); g.c.y.v = 0; kick(); }
+    }
+  }, { passive: true });
+  const rub = (o, d, c = .55) => o * d * c / (d + c * o);
+  addEventListener("pointerup", e => {
+    if (!g) return; const { c, i, drag, moved, t, pts } = g; g = null;
+    c.s.to = c.sT; kick();
+    if (drag) {                                              // hand the finger's speed to the spring; decide by where the throw would land
+      const a = pts[0], b = pts[pts.length - 1], v = (b.y - a.y) / Math.max(16, b.t - a.t) * 1000;
+      c.y.v = v;
+      if (c.y.x - TOP + (v / 1000) * .998 / (1 - .998) > 140) pick(null, K[i]); else targets(K[i]);
+      return;
+    }
+    if (moved > 10) return;
+    const link = t.closest("a,button");
+    if (front(c)) {
+      if (link) {
+        if (link.dataset.act === "form") openForm(true);
+        else if (link.dataset.pick) pick(link.dataset.pick);   // the business card's menu opens the section's card first
+        return;                                              // other links do what links do
+      }
+      if (c === biz) { flip.to = Math.round(flip.to / 180) * 180 + 180; kick(); return; }   // turn the card over
+      if (picked) pick(null, K[i]);                          // tap the open card: back into the stack
+      return;
+    }
+    if (picked && K[i] !== picked) { pick(null, K[i]); return; }   // the pile: back to the stack
+    pick(K[i]);                                              // a strip behind: take that card out
+  });
+  addEventListener("pointercancel", () => { if (g) { g.c.s.to = g.c.sT; targets(picked); g = null; } });
+  // a card that is not in front never follows its links: the tap only brings it out
+  els.forEach((el, i) => el.addEventListener("click", e => {
+    const link = e.target.closest("a,button"); if (!link) return;
+    if (!front(C[i]) || link.dataset.pick || link.dataset.act) { e.preventDefault(); e.stopPropagation(); }
+  }, true));
+  els.forEach((el, i) => el.addEventListener("keydown", e => {
+    if (e.key !== "Enter" && e.key !== " ") return; e.preventDefault();
+    if (C[i] === biz && !picked) { flip.to += 180; kick(); } else pick(picked === K[i] ? null : K[i]);
+  }));
+
+  /* ---------- the form: the footer's own form moves onto a sheet ---------- */
+  const sheet = document.getElementById("w-sheet"), scrim = document.getElementById("w-scrim"), slot = document.getElementById("w-slot");
+  const fy = S(1, .42, 1), fo = S(0, .3);
+  let sheetOpen = false, formHome = null, fg = null;
+  function openForm(on){
+    const f = document.querySelector(".foot .f-form") || slot.firstElementChild;
+    if (on && f && f.parentNode !== slot) { formHome = { parent: f.parentNode, next: f.nextSibling }; slot.appendChild(f); }
+    sheetOpen = on; fy.to = on ? 0 : 1; fo.to = on ? 1 : 0;
+    scrim.style.pointerEvents = on ? "auto" : "none"; sheet.setAttribute("aria-hidden", String(!on));
+    if (!on) setTimeout(() => { if (!sheetOpen && formHome && slot.firstElementChild) formHome.parent.insertBefore(slot.firstElementChild, formHome.next); }, 600);
+    kick();
+  }
+  scrim.addEventListener("click", () => openForm(false));
+  sheet.querySelector(".w-grip").addEventListener("pointerdown", e => { fg = { y: e.clientY, h: sheet.offsetHeight, t: e.timeStamp }; try { e.target.setPointerCapture(e.pointerId); } catch (_) {} });
+  addEventListener("pointermove", e => { if (!fg) return; fy.x = fy.to = Math.max(0, e.clientY - fg.y) / fg.h; fy.v = 0; kick(); });
+  addEventListener("pointerup", e => { if (!fg) return; const v = (e.clientY - fg.y) / Math.max(16, e.timeStamp - fg.t) * 1000 / fg.h; fg = null; fy.v = v; openForm(!(fy.x + v * .25 > .3)); });
+  addEventListener("keydown", e => { if (e.key === "Escape" && sheetOpen) openForm(false); });
+
+  /* ---------- one loop, asleep when nothing moves ---------- */
+  let run = false, prev = 0;
+  function kick(){ if (!run && mq.matches) { run = true; prev = performance.now(); requestAnimationFrame(frame); } }
+  function frame(now){
+    const dt = Math.min((now - prev) / 1000, 1 / 30); prev = now; let busy = !!g || !!fg;
+    C.forEach(c => {
+      if (!(g && g.c === c && g.drag)) { if ((now - c.t0) / 1000 >= c.delay) c.y.to = c.yT; c.y.step(dt); }
+      if (!g || g.c !== c) c.s.to = c.sT; c.s.step(dt);
+      c.d.to = c.dT; c.d.step(dt);
+      c.el.style.transform = `translate3d(0,${c.y.x.toFixed(2)}px,0) scale(${c.s.x.toFixed(4)})`;
+      c.dim.style.opacity = c.d.x.toFixed(3);
+      busy = busy || !c.y.idle() || !c.s.idle() || !c.d.idle() || c.y.to !== c.yT;
+    });
+    flip.step(dt);
+    const th = (flip.x % 360 + 360) % 360, backUp = th > 90 && th < 270;
+    flipEl.style.transform = `rotateY(${flip.x.toFixed(2)}deg)`;
+    sides[0].style.visibility = backUp ? "hidden" : ""; sides[1].style.visibility = backUp ? "" : "hidden";
+    fy.step(dt); fo.step(dt);
+    sheet.style.transform = `translate3d(0,${(fy.x * 110).toFixed(2)}%,0)`; scrim.style.opacity = fo.x.toFixed(3);
+    busy = busy || !flip.idle() || !fy.idle() || !fo.idle();
+    if (busy) requestAnimationFrame(frame); else run = false;
+  }
+
+  /* ---------- start ----------
+     The business card is already where the intro's card will land. The other cards wait behind it
+     and fan up out of it once the page takes over (or straight away when there is no intro). */
+  function place(){
+    measure(); targets(picked);
+    if (!dealt) C.forEach(c => { c.y.x = STACK0 + (C.length - 1) * PEEK; if (c !== biz) c.yT = c.y.x; });
+    C.forEach(c => c.el.style.transform = `translate3d(0,${c.y.x.toFixed(2)}px,0)`);
+  }
+  function deal(){
+    if (dealt) return; dealt = true;
+    targets(null); C.forEach((c, i) => c.delay = .05 + (C.length - 1 - i) * .055);
+  }
+  function init(){
+    if (!mq.matches) return;
+    place();
+    if (root.classList.contains("intro")) addEventListener("jbd:intro-done", () => setTimeout(deal, 120), { once: true });
+    else setTimeout(deal, 200);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
+  let w0 = innerWidth, h0 = innerHeight;
+  addEventListener("resize", () => {
+    if (!mq.matches) return;
+    // the toolbar showing or hiding changes the height a little: ignore that, re-lay only on a real change
+    if (innerWidth === w0 && Math.abs(innerHeight - h0) < 120) return;
+    w0 = innerWidth; h0 = innerHeight; if (!dealt) init(); else { measure(); targets(picked); }
+  });
+  // coming back from a page: the stack, closed
+  addEventListener("jbd:route", () => { if (location.pathname === "/" && picked) { picked = null; measure(); targets(null); } });
+  window.__jbdWallet = { pick, targets, C };
+})();
+
 </script>
 </body>
 </html>
