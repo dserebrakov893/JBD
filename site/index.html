@@ -219,6 +219,8 @@ html.foot-static .foot{position:relative}
 .cta{display:flex;justify-content:space-between;align-items:center;gap:20px 32px;flex-wrap:wrap;padding-top:28px;border-top:1px solid var(--ink)}
 .btn{display:inline-flex;gap:10px;align-items:center;background:var(--ink);color:var(--paper);text-decoration:none;padding:14px 22px;border-radius:999px}
 .btn:hover{background:var(--ink-2)}
+.sol-more{margin-top:72px}
+.sol-more-p{margin:10px 0 0;max-width:36em;color:var(--ink-2)}
 @media (max-width:820px){
   .dhead,.item{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr 1fr}
@@ -1346,6 +1348,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
 <article id="solutions" class="page stock" hidden>
   <div class="top mono"><a href="/" data-t-html="backlink"><span aria-hidden="true">←</span> Back to the card</a></div>
   <div id="sol-root"></div>
+  <div class="cta sol-more"><div><p class="h h-m"><span data-l="ru">Не нашли подходящего решения?</span><span data-l="en">Didn’t find the right solution?</span></p><p class="sol-more-p"><span data-l="ru">Расскажите о задаче, и мы предложим, как её решить.</span><span data-l="en">Tell us about your task and we’ll suggest how to solve it.</span></p></div><button type="button" class="btn mono" data-send data-ask><span data-l="ru">Оставить заявку</span><span data-l="en">Leave a request</span></button></div>
 </article>
 
 <article id="signed" class="page stock reg" hidden>
@@ -2578,7 +2581,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     if (t.closest("[data-promo-open]")) { promoOpen = true; promoErr = false; update(); const n = document.getElementById("promo-in"); if (n) n.focus(); return; }
     if (t.closest("[data-promo-off]")) { promo = null; savePromo(); update(); return; }
     if (t.closest("[data-clear]")) { cart = []; saveCart(); lastAdded = null; update(); return; }
-    if (t.closest("[data-send]")) { step = "contact"; leadMsg = ""; leadErr = false; cartShown = true; update(); const n = solRoot.querySelector('[data-lead="name"]'); if (n && !lead.name) n.focus({ preventScroll: true }); return; }
+    if (t.closest("[data-send]")) { step = "contact"; leadMsg = ""; leadErr = false; cartShown = true; if (t.closest("[data-ask]")) root.classList.add("cart-open"); update(); const n = solRoot.querySelector('[data-lead="name"]'); if (n && !lead.name) n.focus({ preventScroll: true }); return; }
     if (t.closest("[data-lead-back]")) { step = "project"; leadMsg = ""; update(); return; }
     if (t.closest("[data-lead-new]")) { step = "project"; lead.comment = ""; lead.c1 = lead.c2 = false; update(); return; }
     if ((el = t.closest("[data-ch]"))) { lead.channel = el.dataset.ch; lead.contact = ""; leadMsg = ""; update(); const n = solRoot.querySelector('[data-lead="contact"]'); if (n) n.focus(); return; }
