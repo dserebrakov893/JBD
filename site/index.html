@@ -19,7 +19,7 @@ window.JBD_LEAD = "/lead";
   var rm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   /* always open at the front of the card, not where the browser last left the page */
   try{ if("scrollRestoration" in history) history.scrollRestoration = "manual"; }catch(e){}
-  if(!rm) document.documentElement.classList.add("sig-anim");
+  if(!rm && innerWidth > 720) document.documentElement.classList.add("sig-anim");   // phones: the signature is simply printed
   if(rm || /^#(products|solutions|about|signed)$/.test(location.hash) || /^\/(products|solutions|about|signed)\/?$/.test(location.pathname)) return;
   document.documentElement.classList.add("intro");
   /* if 3D can't start (old device, blocked CDN), show the site as usual */
@@ -488,6 +488,33 @@ html.cart-has:not(.cart-shown):not(.cart-away) .cart-tab{transform:translate(0,-
 
 @media (prefers-reduced-motion:reduce){ #front{will-change:auto} .menu a,.contact a{transition:none} }
 
+@media (max-width:720px){
+  #front .f-top{flex-direction:row;justify-content:space-between;align-items:flex-start;gap:14px}
+  #front .f-lines{font-size:15px;line-height:1.4;margin-top:6px}
+  #front .f-top > .logo{font-size:74px;line-height:.8;margin-right:-.03em}
+  #front .menu a{font-size:21px;line-height:38px}
+  #back .sig{width:min(86%, 340px)}
+  #front{display:flex;flex-direction:column}
+  #front .f-mid{margin:auto 0}
+}
+/* depth while card 2 slides over card 1: a dark layer's opacity (compositor only), not a filter that repaints the paper every frame */
+#front > .f-shade{position:absolute;inset:0;border-radius:inherit;background:#000;opacity:0;pointer-events:none;z-index:6;will-change:opacity}
+#front{will-change:transform}
+
+/* ---------- desktop polish ---------- */
+/* product texts use the whole column instead of stopping at 56 characters */
+.pr .det .main p:not(.k){max-width:none!important}
+.ab .hw-i p{max-width:min(58ch,100%)!important}
+/* NIKA clubs: slogan first */
+.pr .clubs .cs{font-style:italic;color:var(--ink)}
+.pr .clubs small{font-style:normal;font-size:13px;color:var(--ink-3);margin-top:2px}
+/* the case link under a bundle: a finer line, closer to the words */
+.case{border-bottom:0!important;padding-bottom:0!important;text-decoration:underline!important;text-decoration-thickness:.75px!important;text-underline-offset:2px!important;text-decoration-color:rgba(29,28,25,.7)!important}
+/* the ruble sign was a couple of pixels taller than the digits */
+.rub{font-size:.86em;line-height:1}
+/* dark buttons: no letterpress (its light edge doubled the letters on the ink) */
+:where(.btn,.btn *,.send,.send *){text-shadow:none!important}
+
 /* ---------- phones: the wallet home ---------- */
 #wallet{display:none}
 @media (max-width:720px){
@@ -573,9 +600,9 @@ html.cart-has:not(.cart-shown):not(.cart-away) .cart-tab{transform:translate(0,-
 
 /* phones: the language switch on the dark desk */
 @media (max-width:720px){
-  html:has(#home:not([hidden])) .lang{background:rgba(255,255,255,.06);-webkit-backdrop-filter:none;backdrop-filter:none}
-  html:has(#home:not([hidden])) .lang button{color:#8a8479}
-  html:has(#home:not([hidden])) .lang button[aria-pressed="true"]{background:#efece6;color:#1d1c19}
+  html:has(#home:not([hidden])) .lang{background:transparent!important}
+  html:has(#home:not([hidden])) .lang button{color:#7d776c;background:none}
+  html:has(#home:not([hidden])) .lang button[aria-pressed="true"]{color:#efece6;background:none}
   /* the pages, a step smaller on a phone */
   .page .h-xl{font-size:33px!important}
   #solutions .h-xl{font-size:29px!important}
@@ -584,6 +611,119 @@ html.cart-has:not(.cart-shown):not(.cart-away) .cart-tab{transform:translate(0,-
   #solutions .cat-title{font-size:22px!important}
   #about .word{font-size:68px!important}
 }
+
+
+/* ---------- v2: section cards (2026-11-09) ---------- */
+/* the strip reads like a card in Wallet: the name large on the left, a label and a value on the right */
+.w-strip{height:50px}
+.w-ttl{font-size:calc(var(--wcw) * .068);letter-spacing:-.012em;line-height:1}
+.w-kv{display:flex;gap:16px;text-align:right}
+.w-k{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.w-k i{font-style:normal;font-size:8.5px;line-height:1;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.w-k b{font-weight:400;font-size:15px;line-height:1;color:var(--ink);white-space:nowrap}
+.w-body{top:52px;bottom:15px}
+.w-btn{font-size:11px;padding:8px 13px 7px}
+
+/* products: the two names pressed blind into the paper, the ink comes in when the card is out */
+.w-prod{gap:8px;padding-top:4px}
+.w-press{display:flex;align-items:center;gap:10px}
+.w-press .w-mk{height:calc(var(--wcw) * .1);flex:none;background:var(--tone);filter:drop-shadow(0 -.8px .5px rgba(0,0,0,.3)) drop-shadow(0 .9px .3px #fff);transition:background .9s var(--ease,cubic-bezier(.32,.72,0,1))}
+.w-on .w-press .plg-nika{background:#d4703f;filter:drop-shadow(0 -.4px .3px rgba(0,0,0,.25))}
+.w-on .w-press .plg-vet{background:#c22a55;filter:drop-shadow(0 -.4px .3px rgba(0,0,0,.25))}
+.w-wm{position:relative;display:inline-block;font-size:calc(var(--wcw) * .118);line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.w-wm.f-sans{letter-spacing:.06em}
+.w-wb,.w-wb *{color:var(--tone);text-shadow:0 -1.2px 1.2px rgba(0,0,0,.18),0 1.6px 1.2px rgba(255,255,255,.85)!important}
+.w-wi{position:absolute;inset:0 -.05em -.25em 0;color:var(--ink);text-shadow:none!important;--p:0%;
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(var(--p) - 8%),transparent var(--p));mask-image:linear-gradient(90deg,#000 calc(var(--p) - 8%),transparent var(--p));transition:--p 1.15s var(--ease,cubic-bezier(.32,.72,0,1))}
+.w-on .w-wi{--p:108%}
+.w-on .w-press + .w-press .w-wi{transition-delay:.15s}
+.w-prod .w-btn{margin-top:auto}
+
+/* solutions: one big figure */
+.w-hero{display:flex;align-items:flex-end;gap:12px;margin-top:2px}
+.w-num{font-weight:400;font-size:calc(var(--wcw) * .2);line-height:.78;letter-spacing:-.03em}
+.w-cap{font-size:clamp(12.5px,3.5vw,14px);line-height:1.3;color:var(--ink-2);padding-bottom:2px}
+.w-dirs{margin-top:12px!important;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+
+/* about: the signature, written large across the card */
+.w-about{align-items:center;text-align:center}
+.w-about .w-sig{width:90%;margin:4px auto 0}
+.w-about .w-text{margin-top:6px!important;font-size:clamp(13px,3.7vw,15px);color:var(--ink)}
+.w-about .w-btn{align-self:center}
+
+/* contact: set like the back of the business card, everything centred */
+.w-docs{align-items:center;text-align:center}
+.w-links{display:flex;justify-content:center;flex-wrap:wrap;gap:2px 14px;font-size:clamp(13px,3.7vw,15px)}
+.w-links.w-small{margin-top:5px;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+.w-docs .w-req{margin-top:10px!important;font-size:9.5px;line-height:1.6;letter-spacing:.05em}
+.w-docs .w-btn{align-self:center;margin-top:auto}
+
+
+/* ---------- v3 (2026-11-09) ---------- */
+.w-strip,.w-body{z-index:1}
+/* one rhythm for every strip: the name and the values sit on one baseline */
+.w-strip{align-items:flex-end;height:40px;padding:0 17px 2px}
+.w-tl{display:flex;align-items:flex-end;gap:10px}
+.w-tl .w-blind{padding-bottom:3px}
+.w-tl .w-mk{height:16px}
+.w-kv{gap:18px}
+.w-k{gap:4px}
+.w-k b{font-size:15px;line-height:.9}
+.w-ttl{line-height:.9}
+
+.w-dirs{display:flex;flex-wrap:wrap;gap:3px 14px}
+
+/* ---------- v6 (2026-11-09) ---------- */
+/* the business card: placed as on the desktop card (fractions of the card's width taken from the desktop) */
+.w-fr{padding:0}
+.w-top{position:absolute;inset:0;display:block}
+.w-lines{position:absolute;left:6%;top:calc(var(--wcw) * .1);margin:0!important;max-width:54%;font-size:calc(var(--wcw) * .034);line-height:1.45}
+.w-logo{position:absolute;right:4.2%;top:calc(var(--wcw) * .055);margin:0!important;font-size:calc(var(--wcw) * .175)}
+.w-menu{top:calc(var(--wcw) * .27);bottom:auto}
+.w-menu a{font-size:calc(var(--wcw) * .042);padding:calc(var(--wcw) * .011) 22px}
+
+/* products */
+.w-own{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin:0 0 2px!important}
+.w-prod{gap:4px;padding-top:0}
+.w-wm{font-size:calc(var(--wcw) * .104)}
+.w-press .w-mk{height:calc(var(--wcw) * .088)}
+
+/* solutions */
+.w-sol .w-hero{margin-top:0}
+.w-sol .w-num{font-size:calc(var(--wcw) * .15)}
+.w-sol .w-cap{font-size:13px;line-height:1.2}
+.w-sol .w-head{margin-top:8px!important;font-size:clamp(14px,4vw,16px);line-height:1.28}
+
+/* about: the name set in the About page's serif */
+.w-about{align-items:center;text-align:center}
+.w-name{font-size:calc(var(--wcw) * .085);line-height:1;letter-spacing:-.015em;margin-top:2px!important}
+.w-about .w-text{margin-top:8px!important;font-size:clamp(13px,3.7vw,14.5px);line-height:1.38;color:var(--ink-2);max-width:30ch}
+.w-about .w-btn{align-self:center}
+
+/* ---------- v7 (2026-11-09): the pages' own paper ---------- */
+/* the same sheet as every page: one white, the page texture at the page's scale (fibres visible, not shrunk into the card) */
+.w-t-white,.w-t-ivory,.w-t-pearl,.w-t-cotton,.w-t-stone{--tone:var(--paper,#faf9f6)}
+.w-paper{background-color:var(--paper,#faf9f6);background-image:var(--stock-page);background-size:max(100vw,1366px) auto;background-repeat:repeat;background-blend-mode:normal}
+.w-card[data-k="products"] .w-paper{background-position:-120px -40px}
+.w-card[data-k="solutions"] .w-paper{background-position:-480px -260px}
+.w-card[data-k="about"] .w-paper{background-position:-820px -120px}
+.w-card[data-k="docs"] .w-paper{background-position:-300px -520px}
+.w-biz .w-paper{background-position:-640px -360px}
+/* the impression, as on the pages: shade on the upper edge of every mark, light on the lower edge */
+#wallet .w-lp,#wallet .w-lp *{text-shadow:0 calc(-.005em - .3px) calc(.006em + .4px) rgba(0,0,0,.15),0 calc(.006em + .6px) calc(.004em + .2px) rgba(255,255,255,.75)}
+
+/* ---------- v8: separate sheets ---------- */
+/* each card is its own sheet lying on the one behind: a crisp cut edge all round, light catching the top edge,
+   a short dark shadow it throws up onto the card behind, and the long soft shadow on the desk */
+#wallet .w-paper,#wallet .w-biz .w-paper{box-shadow:
+  inset 0 0 0 .6px rgba(29,28,25,.22),
+  inset 0 1px 0 rgba(255,255,255,.95),
+  0 -1px 0 rgba(0,0,0,.18),
+  0 -3px 6px -1px rgba(0,0,0,.22),
+  0 -10px 18px -8px rgba(0,0,0,.32),
+  0 1.5px 0 #cfcac0,
+  0 22px 34px -20px rgba(0,0,0,.95)}
+#wallet .w-paper,#wallet .w-dim{border-radius:14px}
 
 </style>
 <style>
@@ -1226,50 +1366,46 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
   <div class="w-desk" aria-hidden="true"></div>
 
   <div class="w-card w-t-stone" data-k="docs" tabindex="0" role="button"><div class="w-paper">
-    <div class="w-strip"><span class="w-ttl w-lp"><span data-l="ru">Документы и связь</span><span data-l="en">Documents &amp; contact</span></span><span class="w-lbl w-lp">© 2026 JBD</span></div>
-    <div class="w-body">
-      <div class="w-cols">
-        <nav><a class="w-lp" href="/products"><span data-l="ru">Продукты</span><span data-l="en">Products</span></a><a class="w-lp" href="/solutions"><span data-l="ru">Решения</span><span data-l="en">Solutions</span></a><a class="w-lp" href="/about"><span data-l="ru">О нас</span><span data-l="en">About</span></a><a class="w-lp" href="/signed"><span data-l="ru">Подписано</span><span data-l="en">Signed</span></a></nav>
-        <nav><a class="w-lp" href="/privacy" target="_blank" rel="noopener"><span data-l="ru">Политика конфиденциальности</span><span data-l="en">Privacy policy</span></a><a class="w-lp" href="/consent" target="_blank" rel="noopener"><span data-l="ru">Согласие на обработку данных</span><span data-l="en">Consent to data processing</span></a><a class="w-lp" href="/offer" target="_blank" rel="noopener"><span data-l="ru">Публичная оферта</span><span data-l="en">Public offer</span></a></nav>
-      </div>
-      <div class="w-row"><span class="w-req w-lp"><span data-l="ru">ИП Серебряков Д. С.</span><span data-l="en">IE Serebryakov D. S.</span><br><span data-l="ru">ИНН 645053987663</span><span data-l="en">INN 645053987663</span></span>
-        <button class="w-btn w-lp" type="button" data-act="form"><span data-l="ru">Написать нам</span><span data-l="en">Write to us</span></button></div>
+    <div class="w-strip"><span class="w-ttl w-lp"><span data-l="ru">Связь</span><span data-l="en">Contact</span></span></div>
+    <div class="w-body w-docs">
+      <nav class="w-links w-lp"><a href="/products"><span data-l="ru">Продукты</span><span data-l="en">Products</span></a><a href="/solutions"><span data-l="ru">Решения</span><span data-l="en">Solutions</span></a><a href="/about"><span data-l="ru">О нас</span><span data-l="en">About</span></a><a href="/signed"><span data-l="ru">Подписано</span><span data-l="en">Signed</span></a></nav>
+      <nav class="w-links w-small w-lp"><a href="/privacy" target="_blank" rel="noopener"><span data-l="ru">Политика</span><span data-l="en">Privacy</span></a><a href="/consent" target="_blank" rel="noopener"><span data-l="ru">Согласие</span><span data-l="en">Consent</span></a><a href="/offer" target="_blank" rel="noopener"><span data-l="ru">Оферта</span><span data-l="en">Offer</span></a></nav>
+      <p class="w-req w-lp"><span data-l="ru">ИП Серебряков Дмитрий Сергеевич</span><span data-l="en">IE Dmitry Serebryakov</span><br><span data-l="ru">ИНН</span><span data-l="en">INN</span> 645053987663<br><span data-l="ru">ОГРНИП</span><span data-l="en">OGRNIP</span> 326645700053239<br><a href="mailto:hello@justbusinessdarling.com">hello@justbusinessdarling.com</a></p>
+      <button class="w-btn w-lp" type="button" data-act="form"><span data-l="ru">Написать нам</span><span data-l="en">Write to us</span></button>
     </div></div><i class="w-dim"></i></div>
 
   <div class="w-card w-t-cotton" data-k="about" tabindex="0" role="button"><div class="w-paper">
-    <div class="w-strip"><span class="w-ttl w-lp"><span data-l="ru">О нас</span><span data-l="en">About</span></span>
-      <svg class="w-seal" viewBox="0 0 380 380" aria-hidden="true"><path d="M186 38 C 100 34 36 100 38 196 C 40 280 108 344 192 342 C 280 340 342 272 340 186 C 338 104 278 44 196 40 C 190 39 184 37 176 35" fill="none" stroke-width="13" stroke-linecap="round"/><path class="w-seal-d" d="M202.0 201.5 211.4 187.2Q210.5 186.9 209.6 186.9Q197.3 186.9 177.4 205.6Q157.6 224.3 157.6 232.0Q157.6 234.0 159.9 234.0Q167.2 234.0 182.1 221.6Q197.0 209.1 202.0 201.5ZM267.3 196.0Q206.4 245.1 193.5 245.1Q188.6 245.1 188.6 239.3Q188.6 233.4 193.0 219.7Q193.0 219.4 192.4 219.4Q158.7 247.2 147.6 247.2Q140.0 247.2 140.0 241.6Q140.0 229.3 166.5 205.6Q193.0 181.9 208.8 181.9Q210.8 181.9 213.1 184.9Q219.9 174.9 288.6 76.9Q295.9 67.8 300.5 67.8Q305.0 67.8 305.0 70.8Q305.0 78.1 254.7 139.8Q236.0 163.2 220.3 188.5Q204.7 213.8 204.7 227.0Q204.7 232.5 207.9 232.5Q211.7 232.5 221.3 225.8Q241.2 211.5 256.1 199.5L261.7 194.8Q263.8 193.3 265.5 193.3Q267.3 193.3 267.3 195.4Z"/></svg></div>
-    <div class="w-body">
-      <img class="w-sig" data-sig alt="just business, darling">
+    <div class="w-strip"><span class="w-ttl w-lp"><span data-l="ru">О нас</span><span data-l="en">About</span></span></div>
+    <div class="w-body w-about">
+      <p class="w-name w-lp">just business, darling</p>
       <p class="w-text w-lp"><span data-l="ru">Создаем в России технологии, которыми пользуются каждый день и которым доверяют здоровье, деньги и бизнес.</span><span data-l="en">We build technology in Russia that is used every day and trusted with health, money and business.</span></p>
       <a class="w-btn w-lp w-open" href="/about"><span data-l="ru">Открыть раздел</span><span data-l="en">Open</span></a>
     </div></div><i class="w-dim"></i></div>
 
   <div class="w-card w-t-pearl" data-k="solutions" tabindex="0" role="button"><div class="w-paper">
-    <div class="w-strip"><span class="w-ttl w-lp"><span data-l="ru">Решения</span><span data-l="en">Solutions</span></span><span class="w-lbl w-lp"><span data-l="ru">Студия JBD</span><span data-l="en">JBD studio</span></span></div>
-    <div class="w-body">
+    <div class="w-strip"><span class="w-ttl w-lp"><span data-l="ru">Решения</span><span data-l="en">Solutions</span></span></div>
+    <div class="w-body w-sol">
+      <div class="w-hero"><b class="w-num w-lp">32</b><span class="w-cap w-lp"><span data-l="ru">готовых<br>решения</span><span data-l="en">ready<br>solutions</span></span></div>
       <p class="w-head w-lp"><span data-l="ru">Проектируем, разрабатываем и сопровождаем цифровые продукты для людей и бизнеса</span><span data-l="en">We design, build and support digital products for people and businesses</span></p>
       <a class="w-btn w-lp w-open" href="/solutions"><span data-l="ru">Собрать проект</span><span data-l="en">Build a project</span></a>
     </div></div><i class="w-dim"></i></div>
 
   <div class="w-card w-t-ivory" data-k="products" tabindex="0" role="button"><div class="w-paper">
-    <div class="w-strip"><span class="w-ttl w-lp"><span data-l="ru">Продукты</span><span data-l="en">Products</span></span><span class="w-blind"><i class="w-mk plg-nika"></i><i class="w-mk plg-vet"></i></span></div>
-    <div class="w-body">
-      <p class="w-head w-lp"><span data-l="ru">Инвестируем. Развиваем. Продвигаем.</span><span data-l="en">We invest. We build. We grow.</span></p>
-      <div class="w-prods">
-        <div class="w-prod"><i class="w-mk plg-nika w-ink-nika"></i><span class="w-lp"><b>NIKA</b><span data-l="ru">Спортивно-культурный бренд</span><span data-l="en">Sport and culture brand</span></span></div>
-        <div class="w-prod"><i class="w-mk plg-vet w-ink-vet"></i><span class="w-lp"><b><span data-l="ru">ВетФинанс</span><span data-l="en">VetFinance</span></b><span data-l="ru">Финансы ветклиник в Telegram</span><span data-l="en">Vet clinic finance in Telegram</span></span></div>
-      </div>
+    <div class="w-strip"><span class="w-tl"><span class="w-ttl w-lp"><span data-l="ru">Продукты</span><span data-l="en">Products</span></span><span class="w-blind"><i class="w-mk plg-nika"></i><i class="w-mk plg-vet"></i></span></span></div>
+    <div class="w-body w-prod">
+      <p class="w-own w-lp"><span data-l="ru">Наши собственные продукты</span><span data-l="en">Our own products</span></p>
+      <div class="w-press"><i class="w-mk plg-nika"></i><span class="w-wm f-sans"><span class="w-wb">NIKA</span><span class="w-wi">NIKA</span></span></div>
+      <div class="w-press"><i class="w-mk plg-vet"></i><span class="w-wm"><span class="w-wb"><span data-l="ru">ВетФинанс</span><span data-l="en">VetFinance</span></span><span class="w-wi"><span data-l="ru">ВетФинанс</span><span data-l="en">VetFinance</span></span></span></div>
       <a class="w-btn w-lp w-open" href="/products"><span data-l="ru">Открыть раздел</span><span data-l="en">Open</span></a>
     </div></div><i class="w-dim"></i></div>
 
   <div class="w-card w-biz w-t-white" data-k="card" tabindex="0" role="button"><div class="w-flip">
     <div class="w-side"><div class="w-paper" id="w-front"><div class="w-fr">
-      <div class="w-top"><p class="w-lines w-lp"><span data-l="ru">Собственные продукты.<br>Решения для бизнеса.</span><span data-l="en">Our own products.<br>Solutions for business.</span></p><p class="w-logo w-lp">jbd</p></div>
+      <div class="w-top"><p class="w-lines w-lp"><span data-l="ru">Собственные продукты.<br>Решения для людей и бизнеса.</span><span data-l="en">Our own products.<br>Solutions for people and business.</span></p><p class="w-logo w-lp">jbd</p></div>
       <nav class="w-menu"><a class="w-lp" href="/products" data-pick="products"><span data-l="ru">Продукты</span><span data-l="en">Products</span></a><a class="w-lp" href="/solutions" data-pick="solutions"><span data-l="ru">Решения</span><span data-l="en">Solutions</span></a><a class="w-lp" href="/about" data-pick="about"><span data-l="ru">О нас</span><span data-l="en">About</span></a></nav>
     </div></div></div>
     <div class="w-side w-back"><div class="w-paper"><div class="w-bk">
-      <p class="w-legal w-lp"><span data-l="ru">ИНН 645053987663 · ОГРНИП 326645700053239</span><span data-l="en">INN 645053987663 · OGRNIP 326645700053239</span><br><a href="mailto:hello@justbusinessdarling.com">hello@justbusinessdarling.com</a></p>
+      <p class="w-legal w-lp"><span data-l="ru">ИНН 645053987663<br>ОГРНИП 326645700053239</span><span data-l="en">INN 645053987663<br>OGRNIP 326645700053239</span><br><a href="mailto:hello@justbusinessdarling.com">hello@justbusinessdarling.com</a></p>
       <img class="w-sig" data-sig alt="just business, darling">
       <p class="w-tag w-lp"><span data-l="ru">Ваш цифровой партнер</span><span data-l="en">Digital by your side</span></p>
     </div></div></div>
@@ -1285,7 +1421,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     <div class="f-top">
       <p class="f-lines">
         <span data-t="l1">Our own products.</span>
-        <span data-t="l2">Solutions for business.</span>
+        <span data-t="l2">Solutions for people and business.</span>
       </p>
       <h1 class="logo">jbd</h1>
     </div>
@@ -1324,11 +1460,11 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     <div class="em" tabindex="0" role="button" aria-expanded="false">
       <div class="em-row">
         <span class="plg plg-nika" aria-hidden="true"><i class="m"></i><i class="c"></i></span><div class="press f-sans" aria-hidden="true"><span class="blind">NIKA</span><span class="ink">NIKA</span></div>
-        <div class="meta"><span class="slog">You’ll never move alone</span><span data-l="ru">Спортивно-культурный бренд</span><span data-l="en">Sport and culture brand</span><span class="plus" aria-hidden="true">+</span></div>
+        <div class="meta"><span data-l="ru">Спортивно-культурный бренд</span><span data-l="en">Sport and culture brand</span><span class="slog">You’ll never move alone</span><span class="plus" aria-hidden="true">+</span></div>
       </div>
       <div class="det"><div><div class="in">
         <div class="main"><p data-l="ru">Спорт сегодня всё меньше про результат и всё больше про то, с кем проводишь время. После пробежки люди пьют кофе и обсуждают прочитанное, а на йоге знакомятся и договариваются о следующей встрече. Мы основали NIKA, чтобы собрать такие встречи в одном месте: беговые и книжные клубы, пилатес, йогу и разговоры.</p><p data-l="en">Sport today is less about results and more about who you spend your time with. After a run people grab a coffee and talk about what they’ve been reading; at yoga they meet and plan the next time. We founded NIKA to bring these meetings together in one place: running and book clubs, pilates, yoga and conversation.</p><p class="k"><span data-l="ru">Здесь не нужно</span><span data-l="en">You don’t have to</span></p><ul class="ticks"><li><span data-l="ru">Быть самым быстрым</span><span data-l="en">Be the fastest</span></li><li><span data-l="ru">Быть спортивным</span><span data-l="en">Be athletic</span></li><li><span data-l="ru">Соответствовать чьим-то ожиданиям</span><span data-l="en">Live up to anyone’s expectations</span></li></ul><p data-l="ru" class="strong">Можно просто прийти и быть собой.</p><p data-l="en" class="strong">You can just come and be yourself.</p><p data-l="ru" class="quote">Мы верим, что наша сила в людях вокруг нас: вместе мы решаем большинство проблем.</p><p data-l="en" class="quote">We believe our strength is in the people around us: together we solve most problems.</p><a class="pr-go" href="https://www.mynika.online" target="_blank" rel="noopener"><span class="go-t"><span data-l="ru">Подробнее о NIKA</span><span data-l="en">More about NIKA</span></span><span class="go-u">mynika.online <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 13.5l7-7M8 6.5h5.5V12"/></svg></span></a></div>
-        <div class="side"><p class="k"><span data-l="ru">Клубы NIKA</span><span data-l="en">NIKA clubs</span></p><ul class="clubs"><li><span class="cn"><span data-l="ru">Беговой клуб</span><span data-l="en">Running club</span><small>You’ll never run alone</small></span></li><li><span class="cn"><span data-l="ru">Пилатес-клуб</span><span data-l="en">Pilates club</span><small>You’ll never stretch alone</small></span></li><li><span class="cn"><span data-l="ru">Книжный клуб</span><span data-l="en">Book club</span><small>You’ll never read alone</small></span></li><li><span class="cn"><span data-l="ru">Разговорный клуб</span><span data-l="en">Speaking club</span><small>You’ll never speak alone</small></span></li><li><span class="cn"><span data-l="ru">Теннисный клуб</span><span data-l="en">Tennis club</span><small>You’ll never play alone</small></span></li><li><span class="cn"><span data-l="ru">Горнолыжный клуб</span><span data-l="en">Ski club</span><small>You’ll never ski alone</small></span></li></ul></div>
+        <div class="side"><p class="k"><span data-l="ru">Клубы NIKA</span><span data-l="en">NIKA clubs</span></p><ul class="clubs"><li><span class="cn"><span class="cs">You’ll never run alone</span><small><span data-l="ru">Беговой клуб</span><span data-l="en">Running club</span></small></span></li><li><span class="cn"><span class="cs">You’ll never stretch alone</span><small><span data-l="ru">Пилатес-клуб</span><span data-l="en">Pilates club</span></small></span></li><li><span class="cn"><span class="cs">You’ll never read alone</span><small><span data-l="ru">Книжный клуб</span><span data-l="en">Book club</span></small></span></li><li><span class="cn"><span class="cs">You’ll never speak alone</span><small><span data-l="ru">Разговорный клуб</span><span data-l="en">Speaking club</span></small></span></li><li><span class="cn"><span class="cs">You’ll never play alone</span><small><span data-l="ru">Теннисный клуб</span><span data-l="en">Tennis club</span></small></span></li><li><span class="cn"><span class="cs">You’ll never ski alone</span><small><span data-l="ru">Горнолыжный клуб</span><span data-l="en">Ski club</span></small></span></li></ul></div>
       </div></div></div>
     </div>
     <div class="em" tabindex="0" role="button" aria-expanded="false">
@@ -1338,7 +1474,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
       </div>
       <div class="det"><div><div class="in">
         <div class="main"><p class="k"><span data-l="ru">Для кого</span><span data-l="en">Who it’s for</span></p><ul class="ticks"><li><span data-l="ru">Одна клиника на 2–6 врачей</span><span data-l="en">A single clinic with 2–6 vets</span></li><li><span data-l="ru">Сеть филиалов, которой нужно сравнивать точки между собой и с нормой отрасли и планировать на четыре квартала вперед</span><span data-l="en">A chain that needs to compare its branches with each other and the industry norm and plan four quarters ahead</span></li></ul><p data-l="ru">ВетФинанс помогает владельцу ветклиники увидеть, где бизнес теряет деньги, и сократить лишние расходы, чтобы росли выручка и прибыль. Сервис показывает, что приносит прибыль, а что ее съедает.</p><p data-l="en">VetFinance helps a vet clinic owner see where the business loses money and cut unnecessary costs so that revenue and profit grow. It shows what makes a profit and what eats it up.</p><p data-l="ru">Полные отчеты приходят прямо в мессенджер, которым владелец уже пользуется. Данные берутся из учетной программы и банка сами, доступ только на чтение. Не нужно сводить Google Таблицы, Excel и тетради администратора.</p><p data-l="en">Full reports arrive right in the messenger the owner already uses. Data comes in from the clinic software and the bank on its own, with read-only access. No more piecing together Google Sheets, Excel and the front desk notebook.</p><a class="pr-go" href="https://www.vetfinance.online" target="_blank" rel="noopener"><span class="go-t"><span data-l="ru">Подробнее о ВетФинансе</span><span data-l="en">More about VetFinance</span></span><span class="go-u">vetfinance.online <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 13.5l7-7M8 6.5h5.5V12"/></svg></span></a></div>
-        <div class="side"><p class="k"><span data-l="ru">Подключение</span><span data-l="en">Setup</span></p><dl class="facts"><div><dt>≈15</dt><dd><span data-l="ru">минут с вашей стороны</span><span data-l="en">minutes on your side</span></dd></div><div><dt>5</dt><dd><span data-l="ru">рабочих дней до первого разбора</span><span data-l="en">business days to the first report</span></dd></div><div><dt>08:00</dt><dd><span data-l="ru">каждое утро разбор в чате</span><span data-l="en">the daily report in your chat</span></dd></div><div><dt>0</dt><dd><span data-l="ru">изменений в учетной программе</span><span data-l="en">changes to your clinic software</span></dd></div></dl><p data-l="ru" class="small">Только чтение: видим цифры, но не можем ничего изменить или провести платеж. Данные клиентов клиники в расчетах не участвуют.</p><p data-l="en" class="small">Read-only: we see the numbers but cannot change anything or make a payment. The clinic’s client data is not used.</p><p class="k"><span data-l="ru">Вы получаете</span><span data-l="en">What you get</span></p><ul class="ticks"><li><span data-l="ru">Ясность, где сократить расходы, чтобы росла прибыль</span><span data-l="en">Clarity on where to cut costs so profit grows</span></li><li><span data-l="ru">Понятную картину вчерашней выручки уже с утра</span><span data-l="en">A clear view of yesterday’s earnings first thing in the morning</span></li><li><span data-l="ru">Прогноз: хватит ли денег на зарплату, аренду и поставщиков</span><span data-l="en">A forecast of whether there is enough for salaries, rent and suppliers</span></li><li><span data-l="ru">Прозрачность прибыли по каждому врачу, услуге и направлению</span><span data-l="en">Visibility of profit by every vet, service and line of business</span></li><li><span data-l="ru">Предупреждения о сроках годности до списания товара</span><span data-l="en">Expiry alerts before stock has to be written off</span></li><li><span data-l="ru">Возможность задавать вопросы прямо в боте</span><span data-l="en">The option to ask questions right in the bot</span></li></ul></div>
+        <div class="side"><p class="k"><span data-l="ru">Подключение</span><span data-l="en">Setup</span></p><dl class="facts"><div><dt>20</dt><dd><span data-l="ru">минут с вашей стороны</span><span data-l="en">minutes on your side</span></dd></div><div><dt>5</dt><dd><span data-l="ru">рабочих дней до первого разбора</span><span data-l="en">business days to the first report</span></dd></div><div><dt>08:00</dt><dd><span data-l="ru">каждое утро разбор в чате</span><span data-l="en">the daily report in your chat</span></dd></div><div><dt>2</dt><dd><span data-l="ru">источника данных: учетная программа и банк</span><span data-l="en">data sources: clinic software and bank</span></dd></div></dl><p data-l="ru" class="small">Только чтение: видим цифры, но не можем ничего изменить или провести платеж. Данные клиентов клиники в расчетах не участвуют.</p><p data-l="en" class="small">Read-only: we see the numbers but cannot change anything or make a payment. The clinic’s client data is not used.</p><p class="k"><span data-l="ru">Вы получаете</span><span data-l="en">What you get</span></p><ul class="ticks"><li><span data-l="ru">Ясность, где сократить расходы, чтобы росла прибыль</span><span data-l="en">Clarity on where to cut costs so profit grows</span></li><li><span data-l="ru">Понятную картину вчерашней выручки уже с утра</span><span data-l="en">A clear view of yesterday’s earnings first thing in the morning</span></li><li><span data-l="ru">Прогноз: хватит ли денег на зарплату, аренду и поставщиков</span><span data-l="en">A forecast of whether there is enough for salaries, rent and suppliers</span></li><li><span data-l="ru">Прозрачность прибыли по каждому врачу, услуге и направлению</span><span data-l="en">Visibility of profit by every vet, service and line of business</span></li><li><span data-l="ru">Предупреждения о сроках годности до списания товара</span><span data-l="en">Expiry alerts before stock has to be written off</span></li><li><span data-l="ru">Возможность задавать вопросы прямо в боте</span><span data-l="en">The option to ask questions right in the bot</span></li></ul></div>
       </div></div></div>
     </div>
   </div>
@@ -1510,7 +1646,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     "fb.title":"Расскажите о своей задаче","fb.name":"Имя","fb.contact":"Почта или Telegram","fb.msg":"Сообщение","fb.send":"Отправить",
     "fb.consent":"Даю <a href=\"consent.html\" target=\"_blank\" rel=\"noopener\">согласие на обработку персональных данных</a> и принимаю <a href=\"privacy.html\" target=\"_blank\" rel=\"noopener\">политику конфиденциальности</a>",
     "disc":"Информация на сайте не является публичной офертой. Условия оказания услуг определяются <a href=\"offer.html\" target=\"_blank\" rel=\"noopener\">Публичной офертой</a>. Показатели и примеры на сайте приведены на демонстрационных данных. Товарные знаки и логотипы банков и учетных программ принадлежат их правообладателям и используются для обозначения совместимости, их упоминание не означает партнерства или одобрения.",
-    "l1":"Собственные продукты.","l2":"Решения для бизнеса.",
+    "l1":"Собственные продукты.","l2":"Решения для людей и бизнеса.",
     "nav.products":"Продукты","nav.solutions":"Решения","nav.about":"О нас",
     "contact":"Связаться:","tag":"Ваш цифровой партнер",
     "inn":"ИНН 645053987663","ie":"ИП Серебряков Дмитрий Сергеевич","ogrnip":"ОГРНИП 326645700053239",
@@ -1601,14 +1737,16 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
   let ticking=false;
   function depth(){
     ticking=false;
-    if(home.hidden || reduce || innerWidth <= 720) return;
+    if(home.hidden || reduce) return;
     const docTop = back.getBoundingClientRect().top + scrollY;
     const p = Math.min(1, Math.max(0, scrollY / Math.max(1, docTop - 10)));
     front.style.transform = p ? `scale(${1 - p*0.05})` : "";
-    front.style.filter = p ? `brightness(${1 - p*0.45})` : "";
+    if(!front._shade){ front._shade = document.createElement("i"); front._shade.className = "f-shade"; front.appendChild(front._shade); }
+    front._shade.style.opacity = (p*0.45).toFixed(3);
   }
   addEventListener("scroll", ()=>{ if(!ticking){ ticking=true; requestAnimationFrame(depth) } }, {passive:true});
-  addEventListener("resize", ()=>{ fitPeek(); depth() });
+  let lastW = innerWidth;
+  addEventListener("resize", ()=>{ if(innerWidth <= 720 && innerWidth === lastW){ depth(); return; } lastW = innerWidth; fitPeek(); depth() });
 
   /* card 2 starts a fixed distance below the contact line, so card 1 never shows empty space */
   const contactEl = document.querySelector(".contact");
@@ -1622,14 +1760,14 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     return { footH, fixed };
   }
   function fitPeek(){
-    if(home.hidden || innerWidth <= 720){ fitFoot(); home.style.marginBottom = ""; return; }
+    if(home.hidden){ fitFoot(); return; }
     const u = Math.min(innerWidth/1440, innerHeight/1024);
     const gap = innerWidth <= 720 ? 44 : Math.max(40, 95*u);      /* contact line → top edge of card 2 */
     const over = innerWidth <= 720 ? 40 : Math.max(32, 64*u);     /* how far card 2 lies over card 1 at the start */
     const bottom = contactEl.offsetTop + contactEl.offsetHeight;
     const inset = parseFloat(getComputedStyle(home).paddingTop) || 8;
     const full = innerHeight - inset * 2;
-    const h = Math.max(320, Math.min(full, bottom + gap + over)); /* both cards share this height */
+    const h = innerWidth <= 720 ? full : Math.max(320, Math.min(full, bottom + gap + over)); /* both cards share this height; on a phone each side fills the screen */
     root.style.setProperty("--c2h", h + "px");
     root.style.setProperty("--over", over + "px");
     /* enough scroll for card 2 to land fully on card 1, then for the stack to lift off the footer */
@@ -2727,7 +2865,8 @@ function snapshot(el, paper, maxTex, withContent = true){
 
   const marks = [];   // everything printed on the card, drawn after all impressions
   el.querySelectorAll("img").forEach(img => {
-    if (img.classList.contains("sig")) return;   // the signature is written on the page itself, after the handover
+    // the signature is written on the page itself after the handover; where it is not written (phones), it is printed on the card from the start
+    if (img.classList.contains("sig") && document.documentElement.classList.contains("sig-anim")) return;
     const b = img.getBoundingClientRect(); if (!b.width) return;
     marks.push({ fs: 44, img: true, imgK: 2, draw: dx => ctx.drawImage(img, b.left - r.left + dx, b.top - r.top, b.width, b.height) });
   });
@@ -2852,8 +2991,10 @@ async function start(){
   const gltf = await gltfP;
   await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
-  const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));   // steady frame rate matters more than extra pixels here
+  /* phones: a dense screen hides aliasing, so skip MSAA there and keep the pixel ratio modest */
+  const PHONE = innerWidth <= 720;
+  const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: !PHONE || (window.devicePixelRatio || 1) < 2, alpha: true, powerPreference: "high-performance" });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, PHONE ? 1.25 : 1.5));   // steady frame rate matters more than extra pixels here
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;
@@ -2872,7 +3013,7 @@ async function start(){
   const SPOT_A = [-420, 160, 380], SPOT_B = [260, 220, 380];
   const spot = new THREE.SpotLight(0xfff3e6, 4.2, 0, .18, .85, 0);
   spot.position.set(...SPOT_A); spot.target.position.set(0, 0, 0); scene.add(spot, spot.target);
-  spot.castShadow = true; spot.shadow.mapSize.set(1024, 1024); spot.shadow.radius = 4;
+  spot.castShadow = true; spot.shadow.mapSize.set(PHONE ? 512 : 1024, PHONE ? 512 : 1024); spot.shadow.radius = 4;
   spot.shadow.camera.near = 100; spot.shadow.camera.far = 1600; spot.shadow.bias = -.0004; spot.shadow.normalBias = .4;
   const rim = new THREE.DirectionalLight(0xa9bcff, 1.5); rim.position.set(260, 240, -260); scene.add(rim);
   const rim2 = new THREE.DirectionalLight(0xd8e0ff, .7); rim2.position.set(-300, -120, -220); scene.add(rim2);
@@ -2944,7 +3085,7 @@ async function start(){
   let snapF, snapB;
   const tex = {};
   function makeTextures(){
-    snapF = snapshot(front, paperF, maxTex); snapB = MW ? snapF : snapshot(back, paperB, maxTex);   // on a phone the second card is not on the page
+    snapF = snapshot(front, paperF, maxTex); snapB = MW ? snapF : snapshot(back, paperB, maxTex);
     Object.values(tex).forEach(t => t.dispose());
     tex.f = texOf(snapF.canvas); tex.b = texOf(snapB.canvas);
     tex.plain = texOf(snapshot(front, paperF, 1024, false).canvas);
@@ -3000,7 +3141,7 @@ async function start(){
     camera.aspect = w / h;
     portrait = !MW && h > w * 1.05;   // the wallet card is landscape: keep the case landscape too
     const sw = portrait ? H : W, sh = portrait ? W : H;
-    const fw = MW ? .82 : .40;   // on a narrow screen the landscape case may take most of the width
+    const fw = MW ? .82 : .40;
     D = Math.max(sw / (fw * 2 * tanH * camera.aspect), sh / ((portrait ? .40 : .36) * 2 * tanH));
     camera.position.set(0, 0, D); camera.lookAt(0, 0, 0); camera.updateProjectionMatrix();
     base.rotation.z = portrait ? PI / 2 : 0;
@@ -3412,6 +3553,44 @@ async function start(){
 })();
 </script>
 <script>
+/* the ruble sign: wrapped so it can sit at the size of the digits (prices are also written later by the cart) */
+(function(){
+  var skip = "script,style,textarea,input,.rub,#intro";
+  function wrap(root){
+    if(!root || root.nodeType !== 1 || (root.closest && root.closest(skip))) return;
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: function(n){
+      return n.nodeValue.indexOf("₽") > -1 && n.parentNode && !n.parentNode.closest(skip) ? 1 : 2; } });
+    var list = []; while(w.nextNode()) list.push(w.currentNode);
+    list.forEach(function(n){
+      var parts = n.nodeValue.split("₽"), f = document.createDocumentFragment();
+      parts.forEach(function(p, i){ if(p) f.appendChild(document.createTextNode(p));
+        if(i < parts.length - 1){ var r = document.createElement("span"); r.className = "rub"; r.textContent = "₽"; f.appendChild(r); } });
+      n.parentNode.replaceChild(f, n);
+    });
+  }
+  wrap(document.body);
+  new MutationObserver(function(ms){ ms.forEach(function(m){
+    if(m.type === "characterData"){ if(m.target.nodeValue.indexOf("₽") > -1) wrap(m.target.parentNode); return; }
+    m.addedNodes.forEach(function(n){ if(n.nodeType === 3){ if(n.nodeValue.indexOf("₽") > -1) wrap(n.parentNode); } else if(n.nodeType === 1 && !n.classList.contains("rub")) wrap(n); });
+  }); }).observe(document.body, { subtree: true, childList: true, characterData: true });
+})();
+/* product names: a long name scales down to its column instead of running under the caption (when the page is zoomed in) */
+(function(){
+  var els = [].slice.call(document.querySelectorAll(".pr .press"));
+  function fit(){
+    els.forEach(function(el){
+      el.style.fontSize = "";
+      var w = el.clientWidth, sw = el.scrollWidth;
+      if(w > 0 && sw > w + 1) el.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * w / sw * .98) + "px";
+    });
+  }
+  var t; addEventListener("resize", function(){ clearTimeout(t); t = setTimeout(fit, 80); });
+  addEventListener("jbd:route", function(){ setTimeout(fit, 60); });
+  document.addEventListener("click", function(){ setTimeout(fit, 60); setTimeout(fit, 450); }, true);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(fit); fit();
+})();
+</script>
+<script>
 /* ---------- phones: the wallet home ----------
    The home page on a phone is a stack of cards, like Apple Wallet. The business card lies in front in full,
    the sections show their strips behind it. A card you touch rises to the top, the rest drop into a pile.
@@ -3432,7 +3611,7 @@ async function start(){
 
   const els = [...wallet.querySelectorAll(".w-card")];       // back → front
   const K = els.map(e => e.dataset.k);
-  const C = els.map(e => ({ el: e, y: S(0), s: S(1, .32), d: S(0, .35), dim: e.querySelector(".w-dim"), delay: 0, t0: 0, yT: 0, sT: 1, dT: 0 }));
+  const C = els.map(e => ({ el: e, y: S(0), s: S(1, .32), d: S(0, .35), r: S(0, .5, .62), dim: e.querySelector(".w-dim"), delay: 0, t0: 0, yT: 0, sT: 1, dT: 0 }));
   const biz = C[C.length - 1], flipEl = biz.el.querySelector(".w-flip"), sides = biz.el.querySelectorAll(".w-side");
   const flip = S(0, .55, .8);
   const hint = document.getElementById("w-hint");
@@ -3449,7 +3628,7 @@ async function start(){
   /* targets for a state; cards further from the one you touched start a beat later, so the stack fans like a deck */
   function targets(from){
     const n = C.length, fi = from == null ? n - 1 : K.indexOf(from), t0 = performance.now();
-    if (!picked) C.forEach((c, i) => { c.delay = Math.abs(i - fi) * .028; c.yT = STACK0 + i * PEEK; c.sT = 1; c.dT = 0; });
+    if (!picked) C.forEach((c, i) => { c.delay = Math.abs(i - fi) * .028; c.yT = STACK0 + i * PEEK; c.sT = 1; c.dT = (n - 1 - i) * .018; });   // each sheet further back sits a touch deeper in shade
     else {
       const pi = K.indexOf(picked); let j = 0;
       C.forEach((c, i) => {
@@ -3460,10 +3639,13 @@ async function start(){
       });
     }
     C.forEach((c, i) => { c.t0 = t0; c.el.style.zIndex = picked && K[i] === picked ? 12 : 2 + i; });
+    C.forEach((c, i) => c.el.classList.toggle("w-on", picked === K[i]));   // the open card: ink comes into its impressions
     hint.style.opacity = picked ? 0 : 1;
     kick();
   }
-  function pick(k, from){ if (picked === k) return; picked = k; targets(from ?? k); if (navigator.vibrate) navigator.vibrate(4); }
+  function pick(k, from){ if (picked === k) return; picked = k; targets(from ?? k);
+    if (k) { const c = C[K.indexOf(k)]; c.r.v = reduce ? 0 : 95; }   // tips back as it comes out, like a card drawn from a sleeve
+    if (navigator.vibrate) navigator.vibrate(4); }
 
   /* ---------- input ---------- */
   let g = null;
@@ -3546,9 +3728,10 @@ async function start(){
       if (!(g && g.c === c && g.drag)) { if ((now - c.t0) / 1000 >= c.delay) c.y.to = c.yT; c.y.step(dt); }
       if (!g || g.c !== c) c.s.to = c.sT; c.s.step(dt);
       c.d.to = c.dT; c.d.step(dt);
-      c.el.style.transform = `translate3d(0,${c.y.x.toFixed(2)}px,0) scale(${c.s.x.toFixed(4)})`;
+      c.r.step(dt);
+      c.el.style.transform = `translate3d(0,${c.y.x.toFixed(2)}px,0) perspective(900px) rotateX(${c.r.x.toFixed(2)}deg) scale(${c.s.x.toFixed(4)})`;
       c.dim.style.opacity = c.d.x.toFixed(3);
-      busy = busy || !c.y.idle() || !c.s.idle() || !c.d.idle() || c.y.to !== c.yT;
+      busy = busy || !c.y.idle() || !c.s.idle() || !c.d.idle() || !c.r.idle() || c.y.to !== c.yT;
     });
     flip.step(dt);
     const th = (flip.x % 360 + 360) % 360, backUp = th > 90 && th < 270;
