@@ -2136,9 +2136,10 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
   }
   /* ---------- promo codes ----------
      code: { pct: discount in %, mo: true if it also applies to monthly support }
-     DARLING10 is a placeholder; replace with the real codes */
+     the code is typed in any case, spaces are ignored: "darling 50" = DARLING50 */
   const PROMO = {
-    DARLING10: { pct: 10, mo: false },
+    DARLING50: { pct: 50, mo: false },
+    "ДАРЛИНГ50": { pct: 50, mo: false },   // same code typed in Cyrillic
   };
   const PROMO_KEY = "jbd-promo";
   let promo = null, promoOpen = false, promoErr = false;
