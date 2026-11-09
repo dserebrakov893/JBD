@@ -725,6 +725,11 @@ html.cart-has:not(.cart-shown):not(.cart-away) .cart-tab{transform:translate(0,-
   0 22px 34px -20px rgba(0,0,0,.95)}
 #wallet .w-paper,#wallet .w-dim{border-radius:14px}
 
+/* smoothness: the shade over a card has its own layer, so changing it never repaints the card and its shadows */
+#wallet .w-dim{will-change:opacity;transform:translateZ(0)}
+
+
+#icv{cursor:pointer!important}
 </style>
 <style>
 /* ---------- footer: four columns, then the disclaimer and the legal line ---------- */
@@ -1350,7 +1355,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
   <div class="iglow"></div>
   <canvas id="icv" aria-hidden="true"></canvas>
   <div class="igrade"></div>
-  <p class="ihint" data-t="intro.hint">Drag to turn · click to open</p>
+  <p class="ihint" data-t="intro.hint">Tap to open</p>
 </div>
 
 <div class="lang" role="group" aria-label="Language / Язык">
@@ -1641,7 +1646,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
 
   /* ---------- Russian version ---------- */
   const RU = {
-    "intro.hint":"Покрутите визитницу · нажмите, чтобы открыть",
+    "intro.hint":"Нажмите, чтобы открыть",
     "docs.h":"Документы","f.nav":"Навигация","fb.h":"Обратная связь","f.mail":"Эл. почта:","card.est":"С 2026 года","card.what":"Продукты и решения","doc.privacy":"Политика конфиденциальности","doc.consent":"Согласие на обработку персональных данных","doc.offer":"Публичная оферта",
     "fb.title":"Расскажите о своей задаче","fb.name":"Имя","fb.contact":"Почта или Telegram","fb.msg":"Сообщение","fb.send":"Отправить",
     "fb.consent":"Даю <a href=\"consent.html\" target=\"_blank\" rel=\"noopener\">согласие на обработку персональных данных</a> и принимаю <a href=\"privacy.html\" target=\"_blank\" rel=\"noopener\">политику конфиденциальности</a>",
@@ -2993,8 +2998,8 @@ async function start(){
 
   /* phones: a dense screen hides aliasing, so skip MSAA there and keep the pixel ratio modest */
   const PHONE = innerWidth <= 720;
-  const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: !PHONE || (window.devicePixelRatio || 1) < 2, alpha: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, PHONE ? 1.25 : 1.5));   // steady frame rate matters more than extra pixels here
+  const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true, powerPreference: "high-performance" });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));   // steady frame rate matters more than extra pixels here
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;
@@ -3096,12 +3101,12 @@ async function start(){
   function faceMat(key){
     const m = new THREE.MeshStandardMaterial({ map: tex[key], emissiveMap: tex[key], bumpMap: tex[key], bumpScale: BUMP,
       color: new THREE.Color(LIT, LIT, LIT), emissive: 0xffffff, emissiveIntensity: EMI,
-      roughness: .92, metalness: 0, envMapIntensity: .6, toneMapped: false });
+      roughness: .92, metalness: 0, envMapIntensity: .6, toneMapped: false, alphaTest: .5 });
     m.userData.key = key; faceMats.push(m); return m;
   }
   function rearMat(){
     const m = new THREE.MeshStandardMaterial({ map: tex.plain, color: new THREE.Color(LIT, LIT, LIT), emissive: 0xffffff, emissiveMap: tex.plain,
-      emissiveIntensity: EMI, roughness: .95, toneMapped: false });
+      emissiveIntensity: EMI, roughness: .95, toneMapped: false, alphaTest: .5 });
     m.userData.key = "plain"; faceMats.push(m); return m;
   }
   const edgeMat = fillerMat;
@@ -3117,6 +3122,7 @@ async function start(){
     { mesh: cardMesh("f"), delay: 0, z1: 0, rot: 0, frot: 0, fx: 0, fy: 0, sc: 1, main: true, la: .62, lb: TD, L: 14 },
   ];
   fan.forEach((c, i) => { c.slot = slot[i]; base.add(c.mesh); });
+  if (MW) fan.forEach(c => { if (!c.main) c.mesh.visible = false; });
   const frontFly = fan[2];
 
   // the back card is not in the case: it comes up from below the screen, in front of the front card
@@ -3171,11 +3177,7 @@ async function start(){
   });
   addEventListener("pointermove", e => {
     tpx = e.clientX / innerWidth * 2 - 1; tpy = e.clientY / innerHeight * 2 - 1;
-    if (!down || opened) return;
-    const dx = e.clientX - down.x, dy = e.clientY - down.y;
-    moved += Math.abs(dx) + Math.abs(dy); down = { x: e.clientX, y: e.clientY };
-    yaw += dx * .0085; pitch += dy * .0085; bump();   // 1:1 with the pointer while held
-    hist.push({ t: performance.now(), yaw, pitch }); if (hist.length > 6) hist.shift();
+    // the case is not turned by hand any more: a tap opens it
   });
   const up = () => {
     if (!down) return; intro.classList.remove("drag"); down = null;
@@ -3183,7 +3185,7 @@ async function start(){
     const now = performance.now(), recent = hist.filter(h => now - h.t < 90);
     if (recent.length > 1) { const a = recent[0], b = recent[recent.length - 1], dt = Math.max(16, b.t - a.t) / 1000;
       vyaw = (b.yaw - a.yaw) / dt; vpitch = (b.pitch - a.pitch) / dt; } else { vyaw = vpitch = 0; }
-    if (moved < 7) openCase();
+    openCase();
   };
   cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", () => { down = null; intro.classList.remove("drag"); });
   intro.addEventListener("wheel", openCase, { passive: true });
@@ -3296,7 +3298,7 @@ async function start(){
     if (pf.n === 45) {
       pf.done = true;
       const avg = pf.sum / pf.n;
-      if (avg > 1 / 42) { renderer.setPixelRatio(1); spot.shadow.mapSize.set(512, 512); if (spot.shadow.map) { spot.shadow.map.dispose(); spot.shadow.map = null; } }
+      if (avg > 1 / 42) { renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5)); spot.shadow.mapSize.set(512, 512); if (spot.shadow.map) { spot.shadow.map.dispose(); spot.shadow.map = null; } }
     }
   }
   function frame(){
