@@ -521,7 +521,7 @@ html.cart-has:not(.cart-shown):not(.cart-away) .cart-tab{transform:translate(0,-
   #wallet{display:block}
   #home > #front,#home > #back{display:none!important}
   #home{margin-bottom:0!important;padding:0!important;min-height:100svh}
-  html:has(#home:not([hidden])) .foot:not(.w-sheet){display:none}
+  html:has(#home:not([hidden])) footer.foot{display:none}
   html:has(#home:not([hidden])), html:has(#home:not([hidden])) body{overflow:hidden;overscroll-behavior:none}
   html.foot-static .foot{position:relative}
 }
@@ -730,6 +730,66 @@ html.cart-has:not(.cart-shown):not(.cart-away) .cart-tab{transform:translate(0,-
 
 
 #icv{cursor:pointer!important}
+
+/* ---------- footer: like the reference, the name across the whole width in one line ---------- */
+footer.foot.fz{display:block!important;overflow:hidden;padding:max(72px, calc(112 * var(--fu))) max(24px, calc(56 * var(--fu))) 0!important;background:#000;color:#ece9e2}
+.fz-top{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.fz-tag{margin:0;font-size:max(22px, calc(34 * var(--fu)));line-height:1.1;letter-spacing:-.01em;color:#f3f0e8}
+.fz-cta{all:unset;box-sizing:border-box;cursor:pointer;padding:max(14px, calc(18 * var(--fu))) max(26px, calc(40 * var(--fu)));border:1px solid #f3f0e8;border-radius:999px;
+  font-size:max(17px, calc(26 * var(--fu)));line-height:1;color:#f3f0e8;transition:background .3s,color .3s}
+.fz-cta:hover{background:#f3f0e8;color:#111}
+.fz-cta:active{transform:scale(.97)}
+.fz-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px max(28px, calc(64 * var(--fu)));margin-top:max(36px, calc(56 * var(--fu)))}
+.fz-h{margin:0 0 14px;font-size:15px;color:#f3f0e8}
+.fz-col nav{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.fz-col nav a{font-size:15px;line-height:1.35;color:#a8a39a;text-decoration:none;transition:color .2s}
+.fz-col nav a:hover{color:#fff;text-decoration:none;font-weight:600}
+.fz-req{margin:14px 0 0;font-size:12.5px;line-height:1.7;color:#77736b}
+.fz-disc{margin:max(32px, calc(48 * var(--fu))) 0 0!important;padding-top:18px!important;border-top:1px solid #222}
+.fz-copy{margin:10px 0 0;font-size:12.5px;color:#77736b}
+.fz-word{margin:max(22px, calc(36 * var(--fu))) 0 0;white-space:nowrap;line-height:1;color:#f3f0e8;font-size:10vw;
+  margin-bottom:-.11em;letter-spacing:-.025em;text-align:left}
+.fz-word span{display:inline-block}
+@media (max-width:720px){
+  footer.foot.fz{padding:64px 18px 0!important}
+  .fz-top{flex-direction:row;align-items:center;gap:14px}
+  .fz-tag{font-size:clamp(16px, 4.8vw, 22px);min-width:0}
+  .fz-cta{flex:none;padding:11px 17px;font-size:14.5px!important;white-space:nowrap}
+  .fz-cols{grid-template-columns:1fr 1fr;gap:26px 18px;margin-top:32px}
+  .fz-col:last-child{grid-column:1/-1}
+}
+
+/* ---------- the feedback dialog: a cross closes it; on a phone it comes up from the bottom ---------- */
+.fdlg{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;visibility:hidden;pointer-events:none}
+.fdlg.on{visibility:visible;pointer-events:auto}
+.fdlg-scrim{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:opacity .35s cubic-bezier(.32,.72,0,1)}
+.fdlg.on .fdlg-scrim{opacity:1}
+.foot.fdlg-box{position:relative!important;inset:auto!important;display:block!important;width:min(520px, calc(100vw - 32px));max-height:calc(100svh - 32px);overflow:auto;
+  padding:30px 28px 26px!important;border-radius:20px;background:#0c0c0c;color:#ece9e2;box-shadow:0 30px 80px -20px rgba(0,0,0,.8),0 0 0 1px #222;
+  opacity:0;transform:translate3d(0,16px,0) scale(.98);transition:opacity .3s cubic-bezier(.32,.72,0,1),transform .45s cubic-bezier(.32,.72,0,1);will-change:transform,opacity}
+.fdlg.on .fdlg-box{opacity:1;transform:none}
+.fdlg-box .f-h{margin:0 0 18px}
+.fdlg-box .fb{gap:22px}
+.fdlg-box .fb-row{gap:22px}
+.fdlg-box .fld{gap:0}
+.fdlg-box .fld span{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.fdlg-box .fld input,.fdlg-box .fld textarea{box-sizing:border-box;width:100%;padding:10px 0 9px;font-size:16px;line-height:1.3;color:#f3f0e8;background:none;border:0;border-bottom:1px solid #3a3934;border-radius:0}
+.fdlg-box .fld textarea{height:auto;min-height:0;resize:none;overflow:hidden}
+.fdlg-box .fld ::placeholder{color:#77736b;opacity:1}
+.fdlg-box .fld input:focus,.fdlg-box .fld textarea:focus{outline:none;border-bottom-color:#f3f0e8}
+.fdlg-box .fld input[aria-invalid="true"],.fdlg-box .fld textarea[aria-invalid="true"]{border-bottom-color:#d9826b}
+.fdlg-x{all:unset;box-sizing:border-box;position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:#ece9e2;background:#1b1b1b}
+.fdlg-x:active{transform:scale(.94)}
+@media (max-width:720px){
+  .fdlg{align-items:flex-end}
+  .foot.fdlg-box{width:100%;max-height:92svh;border-radius:20px 20px 0 0;padding:26px 20px calc(22px + env(safe-area-inset-bottom,0px))!important;transform:translate3d(0,100%,0);opacity:1}
+  .fdlg.on .fdlg-box{transform:none}
+}
+@media (prefers-reduced-motion:reduce){.fdlg-box,.fdlg-scrim{transition-duration:.01s!important}}
+
+/* phones: a footnote sheet gets a cross too */
+.fn-x{all:unset;position:absolute;top:8px;right:8px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer;color:#f3f0e8}
+.fn-pop.sheet{padding-right:46px}
 </style>
 <style>
 /* ---------- footer: four columns, then the disclaimer and the legal line ---------- */
@@ -1417,9 +1477,6 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
   </div><i class="w-dim"></i></div>
 
   <p class="w-hint" id="w-hint"><span data-l="ru">Коснитесь карты</span><span data-l="en">Tap a card</span></p>
-
-  <div class="w-scrim" id="w-scrim"></div>
-  <div class="w-sheet foot" id="w-sheet" aria-hidden="true"><div class="w-grip"><i></i></div><div class="w-slot" id="w-slot"></div></div>
 </div>
 
   <section id="front" class="stock c1" aria-label="Card 1">
@@ -1592,51 +1649,40 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
 </article>
 
 <!-- ================= FOOTER ================= -->
-<footer class="foot">
-  <div class="f-grid">
-    <div class="f-brand">
-      <p class="logo" aria-hidden="true">jbd</p>
-    </div>
-    <div class="f-col">
-      <p class="f-h" data-t="f.nav">Navigation</p>
-      <nav aria-label="Footer">
-        <a href="/products" data-t="nav.products">Products</a>
-        <a href="/solutions" data-t="nav.solutions">Solutions</a>
-        <a href="/about" data-t="nav.about">About</a>
-        <a href="/signed"><span data-l="ru">Подписано</span><span data-l="en">Signed</span></a>
-      </nav>
-    </div>
-    <div class="f-col f-docs">
-      <p class="f-h" data-t="docs.h">Documents</p>
-      <ul class="docs">
-        <li><a href="/privacy" target="_blank" rel="noopener" data-t="doc.privacy">Privacy policy</a></li>
-        <li><a href="/consent" target="_blank" rel="noopener" data-t="doc.consent">Consent to personal data processing</a></li>
-        <li><a href="/offer" target="_blank" rel="noopener" data-t="doc.offer">Public offer</a></li>
-      </ul>
-    </div>
-    <div class="f-col f-form">
-      <p class="f-h" data-t="fb.h">Feedback</p>
-      <form class="fb" id="fb" novalidate>
+<footer class="foot fz">
+  <div class="fz-top">
+    <p class="fz-tag"><span data-l="ru">Ваш цифровой партнер</span><span data-l="en">Digital by your side</span></p>
+    <button class="fz-cta" type="button" data-act="form"><span data-l="ru">Написать нам</span><span data-l="en">Write to us</span></button>
+  </div>
+  <div class="fz-cols">
+    <div class="fz-col"><p class="fz-h" data-t="f.nav">Navigation</p>
+      <nav aria-label="Footer"><a href="/products" data-t="nav.products">Products</a><a href="/solutions" data-t="nav.solutions">Solutions</a><a href="/about" data-t="nav.about">About</a><a href="/signed"><span data-l="ru">Подписано</span><span data-l="en">Signed</span></a></nav></div>
+    <div class="fz-col"><p class="fz-h" data-t="docs.h">Documents</p>
+      <nav><a href="/privacy" target="_blank" rel="noopener" data-t="doc.privacy">Privacy policy</a><a href="/consent" target="_blank" rel="noopener" data-t="doc.consent">Consent to personal data processing</a><a href="/offer" target="_blank" rel="noopener" data-t="doc.offer">Public offer</a></nav></div>
+    <div class="fz-col"><p class="fz-h"><span data-l="ru">Связь</span><span data-l="en">Contact</span></p>
+      <nav><a href="mailto:hello@justbusinessdarling.com">hello@justbusinessdarling.com</a></nav>
+      <p class="fz-req"><span data-t="ie">IE Serebryakov Dmitry Sergeevich</span><br><span data-t="inn">INN 645053987663</span><br><span data-t="ogrnip">OGRNIP 326645700053239</span></p></div>
+  </div>
+  <p class="disc fz-disc" data-t-html="disc">The information on this website is not a public offer. The terms of service are set out in the <a href="/offer" target="_blank" rel="noopener">Public Offer</a>. Figures and examples on the website are based on demo data. Trademarks and logos of banks and accounting software belong to their respective owners and are used to indicate compatibility; their mention does not imply partnership or endorsement.</p>
+  <p class="fz-copy">© 2026 JBD</p>
+  <p class="fz-word" aria-hidden="true"><span>just business, darling</span></p>
+</footer>
+<div class="fdlg" id="fdlg" aria-hidden="true">
+  <div class="fdlg-scrim" data-fdlg-close></div>
+  <div class="fdlg-box foot" role="dialog" aria-modal="true" aria-labelledby="fdlg-h">
+    <button class="fdlg-x" type="button" data-fdlg-close aria-label="Закрыть"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+    <p class="f-h" id="fdlg-h" data-t="fb.h">Feedback</p>
+    <div class="f-form"><form class="fb" id="fb" novalidate>
     <div class="fb-row">
-      <label class="fld"><span data-t="fb.name">Name</span><input id="fb-name" name="name" autocomplete="name" required></label>
+      <label class="fld"><span data-t="fb.name">Name / how to address you</span><input id="fb-name" name="name" autocomplete="name" required></label>
       <label class="fld"><span data-t="fb.contact">Email or Telegram</span><input id="fb-contact" name="contact" autocomplete="email" required></label>
     </div>
     <label class="fld"><span data-t="fb.msg">Message</span><textarea id="fb-msg" name="message" rows="1" required></textarea></label>
     <label class="chk"><input type="checkbox" id="fb-consent" name="consent" required><span data-t-html="fb.consent">I give my <a href="/consent" target="_blank" rel="noopener">consent to the processing of personal data</a> and accept the <a href="/privacy" target="_blank" rel="noopener">privacy policy</a></span></label>
     <div class="fb-foot"><button class="fb-send" id="fb-send" type="submit" data-t="fb.send">Send</button><p class="fb-status" id="fb-status" role="status" aria-live="polite"></p></div>
-  </form>
-    </div>
+  </form></div>
   </div>
-  <p class="disc" data-t-html="disc">The information on this website is not a public offer. The terms of service are set out in the <a href="/offer" target="_blank" rel="noopener">Public Offer</a>. Figures and examples on the website are based on demo data. Trademarks and logos of banks and accounting software belong to their respective owners and are used to indicate compatibility; their mention does not imply partnership or endorsement.</p>
-  <div class="legal">
-    <span data-t="ie">IE Serebryakov Dmitry Sergeevich</span>
-    <span data-t="inn">INN 645053987663</span>
-    <span data-t="ogrnip">OGRNIP 326645700053239</span>
-  </div>
-  <div class="f-bottom">
-    <span class="f-copy">© 2026 JBD</span>
-  </div>
-</footer>
+</div>
 
 <script>
 (function(){
@@ -1648,7 +1694,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
   const RU = {
     "intro.hint":"Нажмите, чтобы открыть",
     "docs.h":"Документы","f.nav":"Навигация","fb.h":"Обратная связь","f.mail":"Эл. почта:","card.est":"С 2026 года","card.what":"Продукты и решения","doc.privacy":"Политика конфиденциальности","doc.consent":"Согласие на обработку персональных данных","doc.offer":"Публичная оферта",
-    "fb.title":"Расскажите о своей задаче","fb.name":"Имя","fb.contact":"Почта или Telegram","fb.msg":"Сообщение","fb.send":"Отправить",
+    "fb.title":"Расскажите о своей задаче","fb.name":"Имя / как к вам обращаться","fb.contact":"Почта или Telegram","fb.msg":"Сообщение","fb.send":"Отправить",
     "fb.consent":"Даю <a href=\"consent.html\" target=\"_blank\" rel=\"noopener\">согласие на обработку персональных данных</a> и принимаю <a href=\"privacy.html\" target=\"_blank\" rel=\"noopener\">политику конфиденциальности</a>",
     "disc":"Информация на сайте не является публичной офертой. Условия оказания услуг определяются <a href=\"offer.html\" target=\"_blank\" rel=\"noopener\">Публичной офертой</a>. Показатели и примеры на сайте приведены на демонстрационных данных. Товарные знаки и логотипы банков и учетных программ принадлежат их правообладателям и используются для обозначения совместимости, их упоминание не означает партнерства или одобрения.",
     "l1":"Собственные продукты.","l2":"Решения для людей и бизнеса.",
@@ -1705,6 +1751,12 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
   const pages = ["products","solutions","about","signed"].map(id=>document.getElementById(id));
   function show(name){
     const target = pages.find(x=>x.id===name) || null, current = pages.find(x=>!x.hidden) || null;
+    if (target !== current && !reduce && innerWidth <= 720 && !root.classList.contains("intro")) {
+      showNow(name);
+      if (target && target.animate) target.animate([{ opacity: 0, transform: "translate3d(0,22px,0)" }, { opacity: 1, transform: "none" }],
+        { duration: 460, easing: "cubic-bezier(.32,.72,0,1)" });
+      return;
+    }
     if (target === current || reduce || !document.startViewTransition || root.classList.contains("intro")) return showNow(name);
     root.dataset.vt = target ? "in" : "out";
     const t = document.startViewTransition(()=>showNow(name));
@@ -2416,7 +2468,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     const sum = cart.length ? [t.once ? fromP(t.once, l) : "", t.mo ? fromP(t.mo, l, true) : ""].filter(Boolean).join(" + ") : "";
     return `
       <div class="c-head"><button type="button" class="c-back" data-lead-back><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 5l-5 5 5 5"/></svg><span>${u.toProject}</span></button>
-        <button type="button" class="c-close" data-cart-close aria-label="${u.fold}" title="${u.fold}"><svg class="ic-panel" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2.75" y="3.75" width="14.5" height="12.5" rx="2.5"/><path d="M12.25 4v12"/></svg><svg class="ic-down" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></button></div>
+        <button type="button" class="c-close" data-cart-close aria-label="${u.fold}" title="${u.fold}"><svg class="ic-panel" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2.75" y="3.75" width="14.5" height="12.5" rx="2.5"/><path d="M12.25 4v12"/></svg><svg class="ic-down" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg></button></div>
       <h2 class="c-title">${u.howH}</h2>
       <p class="c-lead-sub">${cart.length ? esc(u.count(cart.length)) + (sum ? " · " + sum : "") : esc(u.reviewOnly)}</p>
       <form class="lead" data-lead-form novalidate>
@@ -2436,7 +2488,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     const u = UI[l];
     return `
       <div class="c-head"><h2 class="c-title">${u.doneH}</h2>
-        <button type="button" class="c-close" data-cart-close aria-label="${u.fold}" title="${u.fold}"><svg class="ic-panel" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2.75" y="3.75" width="14.5" height="12.5" rx="2.5"/><path d="M12.25 4v12"/></svg><svg class="ic-down" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></button></div>
+        <button type="button" class="c-close" data-cart-close aria-label="${u.fold}" title="${u.fold}"><svg class="ic-panel" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2.75" y="3.75" width="14.5" height="12.5" rx="2.5"/><path d="M12.25 4v12"/></svg><svg class="ic-down" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg></button></div>
       <p class="c-done">${esc(u.doneP(u.ch[lead.channel].t))}</p>
       <button type="button" class="c-send" data-lead-new>${u.newProject}</button>`;
   }
@@ -2498,7 +2550,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     const hasAI = cart.some(k => ["5.1", "5.3"].includes(k)) || bundlesInCart().some(x => x.items.some(c => ["5.1", "5.3"].includes(c)));
     return `
       <div class="c-head"><h2 class="c-title">${u.cart}</h2>
-        <button type="button" class="c-close" data-cart-close aria-label="${u.fold}" title="${u.fold}"><svg class="ic-panel" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2.75" y="3.75" width="14.5" height="12.5" rx="2.5"/><path d="M12.25 4v12"/></svg><svg class="ic-down" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></button></div>
+        <button type="button" class="c-close" data-cart-close aria-label="${u.fold}" title="${u.fold}"><svg class="ic-panel" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2.75" y="3.75" width="14.5" height="12.5" rx="2.5"/><path d="M12.25 4v12"/></svg><svg class="ic-down" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg></button></div>
       ${!cart.length ? `<p class="c-empty">${u.empty}</p>` : `
         ${once.length ? `<p class="c-sub">${u.once}</p><ul class="c-list">${once.map(line).join("")}</ul>` : ""}
         ${mo.length ? `<p class="c-sub">${u.monthly}</p><ul class="c-list">${mo.map(line).join("")}</ul>` : ""}`}
@@ -2658,6 +2710,7 @@ html.cart-shown:not(.cart-away) .sol-fade{right:calc(max(var(--inset), env(safe-
     const n = +btn.dataset.fn, l = lang;
     clearTimeout(popHideT);
     pop.innerHTML = `<span class="fn-pop-n">${UI[l].note} ${n}</span>${rich(SOL.notes[n][l], l)}`;
+    if (innerWidth <= 720) pop.insertAdjacentHTML("afterbegin", `<button type="button" class="fn-x" aria-label="${l === "ru" ? "Закрыть" : "Close"}"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 5l10 10M15 5L5 15"/></svg></button>`);
     pop.hidden = false; popFor = btn; popPinned = !!pinned;
     const sheet = innerWidth <= 720;
     pop.classList.toggle("sheet", sheet);
@@ -3703,29 +3756,15 @@ async function start(){
     if (C[i] === biz && !picked) { flip.to += 180; kick(); } else pick(picked === K[i] ? null : K[i]);
   }));
 
-  /* ---------- the form: the footer's own form moves onto a sheet ---------- */
-  const sheet = document.getElementById("w-sheet"), scrim = document.getElementById("w-scrim"), slot = document.getElementById("w-slot");
-  const fy = S(1, .42, 1), fo = S(0, .3);
-  let sheetOpen = false, formHome = null, fg = null;
-  function openForm(on){
-    const f = document.querySelector(".foot .f-form") || slot.firstElementChild;
-    if (on && f && f.parentNode !== slot) { formHome = { parent: f.parentNode, next: f.nextSibling }; slot.appendChild(f); }
-    sheetOpen = on; fy.to = on ? 0 : 1; fo.to = on ? 1 : 0;
-    scrim.style.pointerEvents = on ? "auto" : "none"; sheet.setAttribute("aria-hidden", String(!on));
-    if (!on) setTimeout(() => { if (!sheetOpen && formHome && slot.firstElementChild) formHome.parent.insertBefore(slot.firstElementChild, formHome.next); }, 600);
-    kick();
-  }
-  scrim.addEventListener("click", () => openForm(false));
-  sheet.querySelector(".w-grip").addEventListener("pointerdown", e => { fg = { y: e.clientY, h: sheet.offsetHeight, t: e.timeStamp }; try { e.target.setPointerCapture(e.pointerId); } catch (_) {} });
-  addEventListener("pointermove", e => { if (!fg) return; fy.x = fy.to = Math.max(0, e.clientY - fg.y) / fg.h; fy.v = 0; kick(); });
-  addEventListener("pointerup", e => { if (!fg) return; const v = (e.clientY - fg.y) / Math.max(16, e.timeStamp - fg.t) * 1000 / fg.h; fg = null; fy.v = v; openForm(!(fy.x + v * .25 > .3)); });
-  addEventListener("keydown", e => { if (e.key === "Escape" && sheetOpen) openForm(false); });
+  /* ---------- the form: the site's own dialog (a cross to close it, no swipe) ---------- */
+  const sheetOpen = false;
+  function openForm(){ if (window.jbdForm) window.jbdForm(true); }
 
   /* ---------- one loop, asleep when nothing moves ---------- */
   let run = false, prev = 0;
   function kick(){ if (!run && mq.matches) { run = true; prev = performance.now(); requestAnimationFrame(frame); } }
   function frame(now){
-    const dt = Math.min((now - prev) / 1000, 1 / 30); prev = now; let busy = !!g || !!fg;
+    const dt = Math.min((now - prev) / 1000, 1 / 30); prev = now; let busy = !!g;
     C.forEach(c => {
       if (!(g && g.c === c && g.drag)) { if ((now - c.t0) / 1000 >= c.delay) c.y.to = c.yT; c.y.step(dt); }
       if (!g || g.c !== c) c.s.to = c.sT; c.s.step(dt);
@@ -3739,9 +3778,7 @@ async function start(){
     const th = (flip.x % 360 + 360) % 360, backUp = th > 90 && th < 270;
     flipEl.style.transform = `rotateY(${flip.x.toFixed(2)}deg)`;
     sides[0].style.visibility = backUp ? "hidden" : ""; sides[1].style.visibility = backUp ? "" : "hidden";
-    fy.step(dt); fo.step(dt);
-    sheet.style.transform = `translate3d(0,${(fy.x * 110).toFixed(2)}%,0)`; scrim.style.opacity = fo.x.toFixed(3);
-    busy = busy || !flip.idle() || !fy.idle() || !fo.idle();
+    busy = busy || !flip.idle();
     if (busy) requestAnimationFrame(frame); else run = false;
   }
 
@@ -3777,5 +3814,36 @@ async function start(){
 })();
 
 </script>
+<script>
+/* the feedback dialog */
+(function(){
+  var d = document.getElementById("fdlg"); if (!d) return;
+  var last = null;
+  window.jbdForm = function(on){
+    if (on) { last = document.activeElement; d.classList.add("on"); d.setAttribute("aria-hidden", "false");
+      setTimeout(function(){ var i = d.querySelector("input"); if (i && innerWidth > 720) i.focus({ preventScroll: true }); }, 350); }
+    else { d.classList.remove("on"); d.setAttribute("aria-hidden", "true"); if (last && last.focus) last.focus({ preventScroll: true }); }
+  };
+  document.addEventListener("click", function(e){
+    if (e.target.closest("[data-fdlg-close]")) { window.jbdForm(false); return; }
+    var b = e.target.closest('[data-act="form"]'); if (b && !b.closest("#wallet")) { e.preventDefault(); window.jbdForm(true); }
+  });
+  addEventListener("keydown", function(e){ if (e.key === "Escape" && d.classList.contains("on")) window.jbdForm(false); });
+  var x = d.querySelector(".fdlg-x"), lx = function(){ x.setAttribute("aria-label", (document.documentElement.lang || "ru").indexOf("en") === 0 ? "Close" : "Закрыть"); };
+  lx(); new MutationObserver(lx).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+})();
+/* footnote sheet: the cross */
+document.addEventListener("click", function(e){ var b = e.target.closest(".fn-x"); if (b) { var p = b.closest(".fn-pop"); if (p) p.hidden = true; } });
+/* the footer's name: one line across the whole width */
+(function(){
+  var w = document.querySelector(".fz-word"); if (!w) return; var sp = w.firstElementChild;
+  function fit(){ if (!w.offsetParent) return; w.style.fontSize = "100px"; var k = w.clientWidth / sp.getBoundingClientRect().width; w.style.fontSize = (100 * k * .995) + "px"; }
+  var t; addEventListener("resize", function(){ clearTimeout(t); t = setTimeout(fit, 60); });
+  addEventListener("jbd:route", function(){ setTimeout(fit, 30); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit); setTimeout(fit, 0);
+  new MutationObserver(function(){ setTimeout(fit, 0); }).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+})();
+</script>
+<script>(function(){var f=document.querySelectorAll("#fb .fld");function sync(){f.forEach(function(l){var t=l.querySelector("span"),i=l.querySelector("input,textarea");if(t&&i){i.placeholder=t.textContent.trim();i.setAttribute("aria-label",t.textContent.trim());}});}sync();f.forEach(function(l){var t=l.querySelector("span");if(t)new MutationObserver(sync).observe(t,{childList:true,characterData:true,subtree:true});});})();</script>
 </body>
 </html>
